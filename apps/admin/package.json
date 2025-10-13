@@ -15,16 +15,18 @@
   },
   "dependencies": {
     "@flovism/ui": "workspace:^",
+    "@libsql/client": "^0.15.15",
+    "drizzle-orm": "^0.44.6",
     "nuxt": "catalog:",
     "vue": "catalog:",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@nuxt/eslint": "1.7.1",
-    "@nuxtjs/i18n": "^10.0.3",
     "@flovism/eslint": "workspace:^",
     "@flovism/oxlint": "workspace:^",
-    "@flovism/prettier": "workspace:^"
+    "@flovism/prettier": "workspace:^",
+    "@nuxt/eslint": "1.7.1",
+    "@nuxtjs/i18n": "^10.0.3"
   },
   "lint-staged": {
     "**/*.{json,js,ts,md,yaml,yml,vue}": [

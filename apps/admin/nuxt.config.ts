@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    databaseUrl: process.env.DATABASE_URL || 'file:./database.db',
+  },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   extends: ['@flovism/ui'],
