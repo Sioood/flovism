@@ -73,7 +73,8 @@
           "config",
           "nuxt-essentials",
           "ui",
-          "web"
+          "web",
+          "admin"
         ]
       ],
       "type-enum": [

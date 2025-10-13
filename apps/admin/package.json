@@ -1,0 +1,37 @@
+{
+  "name": "@flovism/admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "pnpm run lint:oxlint && pnpm run lint:eslint",
+    "lint:oxlint": "pnpx oxlint || true",
+    "lint:eslint": "pnpx eslint .",
+    "i18n:coverage": "node node_modules/@flovism/ui/node_modules/@flovism/nuxt-essentials/i18n/utils/coverage.ts -f ./i18n/locales"
+  },
+  "dependencies": {
+    "@flovism/ui": "workspace:^",
+    "nuxt": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "1.7.1",
+    "@nuxtjs/i18n": "^10.0.3",
+    "@flovism/eslint": "workspace:^",
+    "@flovism/oxlint": "workspace:^",
+    "@flovism/prettier": "workspace:^"
+  },
+  "lint-staged": {
+    "**/*.{json,js,ts,md,yaml,yml,vue}": [
+      "oxlint --fix",
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "prettier": "@flovism/prettier"
+}
