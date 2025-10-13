@@ -1,0 +1,49 @@
+{
+  "name": "@flovism/nuxt-essentials",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxi dev .playground",
+    "prepare": "nuxt prepare .playground",
+    "build": "nuxt build .playground",
+    "generate": "nuxt generate .playground",
+    "preview": "nuxt preview .playground",
+    "lint": "pnpm run lint:oxlint && pnpm run lint:eslint",
+    "lint:oxlint": "pnpx oxlint || true",
+    "lint:eslint": "pnpx eslint .",
+    "i18n:coverage": "node ./i18n/utils/coverage.ts -f ./i18n/locales"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.11.2",
+    "pinia": "^3.0.3"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "latest",
+    "@nuxt/kit": "^4.0.2",
+    "@nuxtjs/i18n": "^10.0.3",
+    "@nuxtjs/seo": "^3.1.0",
+    "@sentry/nuxt": "^10.5.0",
+    "@flovism/eslint": "workspace:^",
+    "@flovism/oxlint": "workspace:^",
+    "@flovism/prettier": "workspace:^",
+    "@types/minimist": "^1.2.5",
+    "@vueuse/nuxt": "^13.6.0",
+    "consola": "^3.4.2",
+    "es-main": "^1.4.0",
+    "eslint": "^9.32.0",
+    "minimist": "^1.2.8",
+    "nuxt": "catalog:",
+    "nuxt-security": "^2.3.0",
+    "typescript": "^5.8.3",
+    "vue": "catalog:"
+  },
+  "lint-staged": {
+    "**/*.{json,js,ts,md,yaml,yml,vue}": [
+      "oxlint --fix",
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "prettier": "@flovism/prettier"
+}

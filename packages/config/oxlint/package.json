@@ -1,0 +1,14 @@
+{
+  "name": "@flovism/oxlint",
+  "version": "1.2.0",
+  "description": "",
+  "scripts": {
+    "lint": "pnpx oxlint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "oxlint": "catalog:"
+  }
+}

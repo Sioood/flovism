@@ -60,14 +60,14 @@ A variety of templates are available, ranging from minimal (main branch) to tech
 
 ### Available Templates
 
-- [minimal](https://github.com/Sioood/stallning/tree/minimal)
+- [minimal](https://github.com/Sioood/flovism/tree/minimal)
   - Minimal template configuration to get started with the essentials for any new project.
     - [Typescript](https://www.typescriptlang.org/)
     - [ESLint](https://eslint.org/)
     - [Prettier](https://prettier.io/)
     - [Husky](https://github.com/typicode/husky), [lint-staged](https://github.com/okonet/lint-staged) and [commitlint](https://github.com/conventional-changelog/commitlint)
     - [Changeset](https://github.com/changesets/changeset)
-- [nuxt](https://github.com/Sioood/stallning/tree/nuxt)
+- [nuxt](https://github.com/Sioood/flovism/tree/nuxt)
   - A good starting point for Nuxt projects using Nuxt layers with separate UI.
 
 ## 🚧 Evolution
@@ -130,7 +130,7 @@ This ensures that you don't overwrite any changes you've made locally. And is no
 #### Storing the targeted branch temporary as `FETCH_HEAD`:
 
 ```sh
-git fetch https://github.com/Sioood/stallning.git <target_branch>
+git fetch https://github.com/Sioood/flovism.git <target_branch>
 ```
 
 #### Pick one commit:
@@ -162,7 +162,7 @@ git cherry-pick FETCH_HEAD~<older_commit_index>^..FETCH_HEAD~<recent_commit_inde
 #### Storing the targeted branch temporary as `FETCH_HEAD`:
 
 ```sh
-git fetch https://github.com/Sioood/stallning.git <target_branch>
+git fetch https://github.com/Sioood/flovism.git <target_branch>
 ```
 
 #### Copying the changes:

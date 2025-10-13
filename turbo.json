@@ -1,0 +1,30 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "tasks": {
+    "build": {
+      "outputs": [".output", ".playground/.output"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "format": {
+      "dependsOn": ["^format"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "lint:eslint": {
+      "dependsOn": ["^lint:eslint"]
+    },
+    "lint:oxlint": {
+      "dependsOn": ["^lint:oxlint"]
+    },
+    "i18n:coverage": {
+      "dependsOn": ["^i18n:coverage"]
+    }
+  }
+}

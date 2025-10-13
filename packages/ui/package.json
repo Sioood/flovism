@@ -1,0 +1,46 @@
+{
+  "name": "@flovism/ui",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxi dev",
+    "prepare": "nuxt prepare",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "pnpm run lint:oxlint && pnpm run lint:eslint",
+    "lint:oxlint": "pnpx oxlint || true",
+    "lint:eslint": "pnpx eslint .",
+    "i18n:coverage": "node ./node_modules/@flovism/nuxt-essentials/i18n/utils/coverage.ts -f ./i18n/locales"
+  },
+  "dependencies": {
+    "@flovism/nuxt-essentials": "workspace:^",
+    "@tailwindcss/vite": "^4.1.12",
+    "class-variance-authority": "^0.7.1",
+    "tailwindcss": "^4.1.12"
+  },
+  "devDependencies": {
+    "@nuxt/fonts": "0.11.4",
+    "@nuxt/icon": "1.15.0",
+    "@nuxt/image": "1.10.0",
+    "@nuxt/kit": "^4.0.2",
+    "@flovism/eslint": "workspace:^",
+    "@flovism/oxlint": "workspace:^",
+    "@flovism/prettier": "workspace:^",
+    "eslint": "^9.32.0",
+    "eslint-plugin-tailwindcss": "4.0.0-beta.0",
+    "nuxt": "catalog:",
+    "typescript": "^5.8.3",
+    "v-gsap-nuxt": "^1.4.4",
+    "vue": "catalog:"
+  },
+  "lint-staged": {
+    "**/*.{json,js,ts,md,yaml,yml,vue}": [
+      "oxlint --fix",
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "prettier": "@flovism/prettier"
+}

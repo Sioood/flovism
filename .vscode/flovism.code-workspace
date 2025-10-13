@@ -1,0 +1,53 @@
+{
+  "folders": [
+    {
+      "name": "/",
+      "path": "../",
+    },
+    {
+      "name": "web",
+      "path": "../apps/web",
+    },
+    {
+      "name": "nuxt-essentials",
+      "path": "../packages/nuxt-essentials",
+    },
+    {
+      "name": "ui",
+      "path": "../packages/ui",
+    },
+    {
+      "name": "config",
+      "path": "../packages/config",
+    },
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "node_module": true,
+      "apps/": true,
+      "packages/": true,
+    },
+    "conventionalCommits.scopes": ["global", "config", "docs", "nuxt-essentials", "ui", "web"],
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "cSpell.words": ["flovism", "oxlint", "Nuxt"],
+  },
+  "extensions": {
+    "recommendations": [
+      "oxc.oxc-vscode",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "vivaxy.vscode-conventional-commits",
+      "Gruntfuggly.todo-tree",
+      "antfu.iconify",
+      "yoavbls.pretty-ts-errors",
+      "vue.volar",
+    ],
+  },
+}

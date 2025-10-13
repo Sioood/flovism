@@ -1,0 +1,98 @@
+{
+  "name": "flovism",
+  "version": "1.0.0",
+  "description": "",
+  "packageManager": "pnpm@10.14.0",
+  "type": "module",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "lint": "turbo run lint",
+    "lint:oxlint": "turbo run lint:oxlint",
+    "lint:eslint": "turbo run lint:eslint",
+    "i18n:coverage": "turbo run i18n:coverage",
+    "deps:check:minor": "npx taze minor -r",
+    "deps:check:major": "npx taze major -r",
+    "format": "turbo format",
+    "prepare": "husky || true",
+    "pre-commit": "lint-staged",
+    "changeset": "pnpm exec changeset",
+    "changeset:conventional-commits": "node --experimental-strip-types ./.changeset/changeset-conventional-commits.ts",
+    "changeset:release": "pnpm exec changeset tag",
+    "build": "turbo run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.29.5"
+  },
+  "devDependencies": {
+    "@changesets/read": "^0.6.5",
+    "@changesets/types": "^6.1.0",
+    "@changesets/write": "^0.4.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@manypkg/get-packages": "^3.1.0",
+    "@flovism/eslint": "workspace:^",
+    "@flovism/oxlint": "workspace:^",
+    "@flovism/prettier": "workspace:^",
+    "@flovism/typescript": "workspace:^",
+    "@types/node": "^24.1.0",
+    "commander": "^14.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "oxlint": "catalog:",
+    "turbo": "^2.5.5"
+  },
+  "prettier": "@flovism/prettier",
+  "lint-staged": {
+    "**/*.{json,js,ts,md,yaml,yml}": [
+      "oxlint --fix",
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "header-max-length": [
+        2,
+        "always",
+        100
+      ],
+      "scope-enum": [
+        2,
+        "always",
+        [
+          "global",
+          "config",
+          "nuxt-essentials",
+          "ui",
+          "web"
+        ]
+      ],
+      "type-enum": [
+        2,
+        "always",
+        [
+          "build",
+          "chore",
+          "ci",
+          "docs",
+          "feat",
+          "fix",
+          "perf",
+          "refactor",
+          "revert",
+          "style",
+          "test"
+        ]
+      ]
+    }
+  }
+}
