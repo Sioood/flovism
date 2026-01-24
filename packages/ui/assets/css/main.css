@@ -1,3 +1,4 @@
+@import './font.css';
 @import 'tailwindcss';
 
 @source '../../components';
@@ -30,8 +31,16 @@
   --color-brown-500: #AC7F5E;
 
   --color-purple-500: #CB30E0;
+
+  /* FONTS */
+  --font-primary: 'Miame';
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  overscroll-behavior-y: none;
 }
