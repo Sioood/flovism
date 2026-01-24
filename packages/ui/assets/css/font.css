@@ -1,0 +1,10 @@
+/* FIXME REMOVE this when @nuxt/fonts work */
+
+/* primary */
+@font-face {
+  font-family: 'Miame';
+  src: url("/miame/Miame4VF.ttf") format(truetype);
+  font-display: swap;
+  font-weight: 100 900;
+  font-style: normal;
+}
