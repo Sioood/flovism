@@ -15,8 +15,6 @@
   },
   "dependencies": {
     "@flovism/ui": "workspace:^",
-    "@libsql/client": "^0.15.15",
-    "drizzle-orm": "^0.44.7",
     "nuxt": "catalog:",
     "vue": "catalog:",
     "vue-router": "^4.6.4"
