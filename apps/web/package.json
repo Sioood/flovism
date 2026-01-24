@@ -17,14 +17,14 @@
     "@flovism/ui": "workspace:^",
     "nuxt": "catalog:",
     "vue": "catalog:",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@nuxt/eslint": "1.7.1",
-    "@nuxtjs/i18n": "^10.0.3",
     "@flovism/eslint": "workspace:^",
     "@flovism/oxlint": "workspace:^",
-    "@flovism/prettier": "workspace:^"
+    "@flovism/prettier": "workspace:^",
+    "@nuxt/eslint": "1.7.1",
+    "@nuxtjs/i18n": "^10.2.1"
   },
   "lint-staged": {
     "**/*.{json,js,ts,md,yaml,yml,vue}": [

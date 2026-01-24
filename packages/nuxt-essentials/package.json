@@ -15,27 +15,27 @@
     "i18n:coverage": "node ./i18n/utils/coverage.ts -f ./i18n/locales"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.11.2",
-    "pinia": "^3.0.3"
+    "@pinia/nuxt": "^0.11.3",
+    "pinia": "^3.0.4"
   },
   "devDependencies": {
-    "@nuxt/eslint": "latest",
-    "@nuxt/kit": "^4.0.2",
-    "@nuxtjs/i18n": "^10.0.3",
-    "@nuxtjs/seo": "^3.1.0",
-    "@sentry/nuxt": "^10.5.0",
     "@flovism/eslint": "workspace:^",
     "@flovism/oxlint": "workspace:^",
     "@flovism/prettier": "workspace:^",
+    "@nuxt/eslint": "latest",
+    "@nuxt/kit": "^4.3.0",
+    "@nuxtjs/i18n": "^10.2.1",
+    "@nuxtjs/seo": "^3.3.0",
+    "@sentry/nuxt": "^10.36.0",
     "@types/minimist": "^1.2.5",
-    "@vueuse/nuxt": "^13.6.0",
+    "@vueuse/nuxt": "^13.9.0",
     "consola": "^3.4.2",
     "es-main": "^1.4.0",
-    "eslint": "^9.32.0",
+    "eslint": "^9.39.2",
     "minimist": "^1.2.8",
     "nuxt": "catalog:",
-    "nuxt-security": "^2.3.0",
-    "typescript": "^5.8.3",
+    "nuxt-security": "^2.5.1",
+    "typescript": "^5.9.3",
     "vue": "catalog:"
   },
   "lint-staged": {

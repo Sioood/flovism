@@ -16,17 +16,17 @@
   "dependencies": {
     "@flovism/ui": "workspace:^",
     "@libsql/client": "^0.15.15",
-    "drizzle-orm": "^0.44.6",
+    "drizzle-orm": "^0.44.7",
     "nuxt": "catalog:",
     "vue": "catalog:",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@flovism/eslint": "workspace:^",
     "@flovism/oxlint": "workspace:^",
     "@flovism/prettier": "workspace:^",
     "@nuxt/eslint": "1.7.1",
-    "@nuxtjs/i18n": "^10.0.3"
+    "@nuxtjs/i18n": "^10.2.1"
   },
   "lint-staged": {
     "**/*.{json,js,ts,md,yaml,yml,vue}": [
