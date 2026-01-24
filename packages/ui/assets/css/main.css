@@ -1,3 +1,37 @@
 @import 'tailwindcss';
 
 @source '../../components';
+@source "../../pages/*";
+@source "../../app.vue";
+@source "../../error.vue";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-gray-200: #E9E7E2;
+  --color-gray-300: #D6D2CD;
+  --color-gray-400: #C7C1B8;
+  --color-gray-500: #AAA092;
+  --color-gray-600: #6D6355;
+
+  --color-blue-500: #0000FA;
+  --color-blue-600: #0000C7;
+  --color-blue-700: #000094;
+
+  --color-red-500: #FA0000;
+  --color-red-600: #C70000;
+  --color-red-700: #940000;
+
+  --color-green-500: #00FA00;
+  --color-green-600: #00C700;
+  --color-green-700: #009400;
+
+  --color-yellow-500: #FEBC2F;
+
+  --color-brown-500: #AC7F5E;
+
+  --color-purple-500: #CB30E0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
