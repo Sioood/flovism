@@ -46,7 +46,6 @@ withDefaults(
     intent?: ButtonProps['intent']
     size?: ButtonProps['size']
     color?: ButtonProps['color']
-    hasIcon?: boolean
     iconName?: string
   }>(),
   {
@@ -73,9 +72,9 @@ withDefaults(
       })
     "
     class="flex size-fit items-center justify-center rounded-full whitespace-nowrap"
-    :data-has-icon="hasIcon"
+    :data-has-icon="!!iconName"
   >
     <slot />
-    <Icon v-if="hasIcon" :name="iconName" mode="svg" :class="icon({ size })" />
+    <Icon v-if="!!iconName" :name="iconName" mode="svg" :class="icon({ size })" />
   </component>
 </template>
