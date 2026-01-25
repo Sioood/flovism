@@ -55,5 +55,9 @@
       <UIFormInput label="label" placeholder="placeholder" />
       <UIFormInput label="label" placeholder="placeholder" required />
     </div>
+
+    <div class="flex flex-col p-4">
+      <UIFormTextarea label="Message" placeholder="Enter your message here..." :rows="6" required />
+    </div>
   </div>
 </template>
