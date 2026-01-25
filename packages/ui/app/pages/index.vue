@@ -59,5 +59,11 @@
     <div class="flex flex-col p-4">
       <UIFormTextarea label="Message" placeholder="Enter your message here..." :rows="6" required />
     </div>
+
+    <div class="flex flex-col p-4">
+      <UIFormRadio label="Radio" name="radio" value="radio" color="gray" />
+      <UIFormRadio label="Radio" name="radio" value="radio" color="gray" size="sm" />
+      <UIFormRadio label="Checkbox" name="checkbox" value="checkbox" type="checkbox" />
+    </div>
   </div>
 </template>
