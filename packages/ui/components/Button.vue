@@ -53,8 +53,7 @@ withDefaults(
     size: 'md',
     color: 'red',
     disabled: false,
-    hasIcon: false,
-    iconName: 'heroicons:chevron-right',
+    iconName: undefined,
   },
 )
 </script>
