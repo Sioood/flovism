@@ -12,7 +12,7 @@ const view = ref<'list' | 'grid'>(props.view || 'grid')
     <summary class="flex w-full cursor-pointer items-center justify-between border-b border-gray-200 p-3">
       <h1 class="text-2xl font-bold">{{ title }}</h1>
 
-      <span class="flex gap-2">
+      <span class="hidden gap-2 lg:flex">
         <UIButton size="sm" icon-name="ic:outline-menu" :color="view === 'list' ? 'black' : 'gray'" @click="view = 'list'" />
         <UIButton size="sm" icon-name="ic:outline-grid-view" :color="view === 'grid' ? 'black' : 'gray'" @click="view = 'grid'" />
       </span>
@@ -21,7 +21,7 @@ const view = ref<'list' | 'grid'>(props.view || 'grid')
     <div
       :class="{
         'flex flex-col gap-6': view === 'list',
-        'grid grid-cols-3 gap-6': view === 'grid',
+        'flex flex-col gap-6 lg:grid lg:grid-cols-3': view === 'grid',
       }"
     >
       <slot />
