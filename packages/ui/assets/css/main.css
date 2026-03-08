@@ -8,11 +8,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-gray-200: #E9E7E2;
-  --color-gray-300: #D6D2CD;
-  --color-gray-400: #C7C1B8;
-  --color-gray-500: #AAA092;
-  --color-gray-600: #6D6355;
+  --color-gray-200: #E9E7E2; /* gris très clair */
+  --color-gray-300: #D6D2CD; /* gris clair */
+  --color-gray-400: #C7C1B8; /* gris mid clair */
+  --color-gray-500: #AAA092; /* gris mid */
+  --color-gray-600: #6D6355; /* gris foncé */
 
   --color-blue-500: #0000FA;
   --color-blue-600: #0000C7;
