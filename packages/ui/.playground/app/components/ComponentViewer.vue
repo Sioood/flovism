@@ -14,16 +14,18 @@ const props = withDefaults(
   defineProps<{
     component: Component & { __name?: string }
     initialProps?: Record<string, unknown>
+    defaultComponentBackground?: boolean
     propsSchema?: PropDefinition[]
   }>(),
   {
     initialProps: () => ({}),
     propsSchema: undefined,
+    defaultComponentBackground: true,
   },
 )
 
 const currentProps = ref<Record<string, unknown>>({ ...props.initialProps })
-const componentBackground = ref<boolean>(true)
+const componentBackground = ref<boolean>(props.defaultComponentBackground ?? true)
 
 watch(
   () => props.initialProps,
@@ -126,7 +128,7 @@ function parsePropValue(value: string, type: string | undefined): unknown {
     </section>
 
     <section class="mb-4">
-      <details open>
+      <details>
         <summary class="mb-2 cursor-pointer text-sm font-medium text-gray-500">Available props</summary>
         <ul class="space-y-1 text-sm">
           <li v-for="p in availableProps" :key="p.name" class="flex flex-wrap items-baseline gap-x-2 gap-y-0 font-mono">
