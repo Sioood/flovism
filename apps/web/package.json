@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare",
     "lint": "pnpm run lint:oxlint && pnpm run lint:eslint",
     "lint:oxlint": "pnpx oxlint || true",
-    "lint:eslint": "pnpx eslint .",
+    "lint:eslint": "pnpm exec eslint .",
     "i18n:coverage": "node node_modules/@flovism/ui/node_modules/@flovism/nuxt-essentials/i18n/utils/coverage.ts -f ./i18n/locales"
   },
   "dependencies": {
@@ -23,8 +23,8 @@
     "@flovism/eslint": "workspace:^",
     "@flovism/oxlint": "workspace:^",
     "@flovism/prettier": "workspace:^",
-    "@nuxt/eslint": "1.7.1",
-    "@nuxtjs/i18n": "^10.2.1"
+    "@nuxt/eslint": "catalog:",
+    "@nuxtjs/i18n": "catalog:"
   },
   "lint-staged": {
     "**/*.{json,js,ts,md,yaml,yml,vue}": [

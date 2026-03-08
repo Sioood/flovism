@@ -11,14 +11,14 @@
     "preview": "nuxt preview",
     "lint": "pnpm run lint:oxlint && pnpm run lint:eslint",
     "lint:oxlint": "pnpx oxlint || true",
-    "lint:eslint": "pnpx eslint .",
+    "lint:eslint": "pnpm exec eslint .",
     "i18n:coverage": "node ./node_modules/@flovism/nuxt-essentials/i18n/utils/coverage.ts -f ./i18n/locales"
   },
   "dependencies": {
     "@flovism/nuxt-essentials": "workspace:^",
-    "@tailwindcss/vite": "^4.1.18",
+    "@tailwindcss/vite": "^4.2.1",
     "class-variance-authority": "^0.7.1",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
     "@flovism/eslint": "workspace:^",
@@ -27,12 +27,12 @@
     "@nuxt/fonts": "0.11.4",
     "@nuxt/icon": "1.15.0",
     "@nuxt/image": "1.10.0",
-    "@nuxt/kit": "^4.3.0",
-    "eslint": "^9.39.2",
+    "@nuxt/kit": "catalog:",
+    "eslint": "catalog:",
     "eslint-plugin-tailwindcss": "4.0.0-beta.0",
     "nuxt": "catalog:",
-    "typescript": "^5.9.3",
-    "v-gsap-nuxt": "^1.4.4",
+    "typescript": "catalog:",
+    "v-gsap-nuxt": "^1.5.12",
     "vue": "catalog:"
   },
   "lint-staged": {
