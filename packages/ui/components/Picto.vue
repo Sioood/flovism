@@ -15,7 +15,7 @@ const picto = cva('picto', {
       blue: 'border-blue-500 bg-blue-500 text-white outline-blue-600',
       green: 'border-green-500 bg-green-500 text-black outline-green-600',
       yellow: 'border-black-500 bg-yellow-500 text-black outline-black',
-      gray: 'border-gray-500 bg-gray-500 text-red-500 outline-gray-600',
+      gray: 'border-gray-500 bg-gray-500 text-black outline-gray-600',
       black: 'border-black bg-black text-white !outline-none hover:bg-gray-200 hover:text-black',
     },
   },
