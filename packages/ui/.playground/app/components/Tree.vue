@@ -20,6 +20,7 @@ type TreeMap = Map<string, { title: string; icon: string; children?: TreeMap; pa
 function buildTree(paths: string[]): TreeEntry[] {
   const root: TreeMap = new Map()
   for (const raw of paths) {
+    if (raw.includes('index.vue')) continue
     const relative = raw.includes('pages/') ? raw.slice(raw.indexOf('pages/') + 'pages/'.length) : raw
     const parts = relative
       .replace(/\.vue$/i, '')
