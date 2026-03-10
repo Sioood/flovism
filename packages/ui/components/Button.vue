@@ -7,10 +7,10 @@ const button = cva('button', {
       primary: 'hover:outline-dashed',
     },
     size: {
-      xs: 'px-4 py-2 text-[0.875rem] -outline-offset-1 hover:outline-2 active:scale-97 data-[has-icon="true"]:gap-2',
-      sm: 'px-6 py-4 -outline-offset-1 hover:outline-2 active:scale-97 data-[has-icon="true"]:gap-2',
-      md: 'px-6 py-4 text-[1.375rem] -outline-offset-2 hover:outline-3 active:scale-97 data-[has-icon="true"]:gap-2',
-      lg: 'px-8 py-4 text-[2rem] -outline-offset-2 hover:outline-4 active:scale-97 data-[has-icon="true"]:gap-3',
+      xs: 'px-4 py-2 text-[0.875rem] leading-[1.125rem] -outline-offset-1 hover:outline-2 active:scale-97 data-[has-icon="true"]:gap-2',
+      sm: 'px-6 py-4 leading-[1.375rem] -outline-offset-1 hover:outline-2 active:scale-97 data-[has-icon="true"]:gap-2',
+      md: 'px-6 py-4 text-[1.375rem] leading-[1.75rem] -outline-offset-2 hover:outline-3 active:scale-97 data-[has-icon="true"]:gap-2',
+      lg: 'px-8 py-4 text-[2rem] leading-[2.75rem] -outline-offset-2 hover:outline-4 active:scale-97 data-[has-icon="true"]:gap-3',
     },
     color: {
       red: 'border-red-500 bg-red-500 text-white outline-red-600 [&_path]:!fill-white [&_path]:!stroke-white [&_svg]:!fill-white [&_svg]:!stroke-white',
