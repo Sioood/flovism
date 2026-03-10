@@ -22,19 +22,19 @@ const formInputPropsSchema: PropDefinition[] = [
           :component="UIFormInput"
           :initial-props="{ placeholder: 'placeholder' }"
           :props-schema="formInputPropsSchema"
-          :default-component-background="false"
+          :default-preview-background="false"
         />
         <ComponentViewer
           :component="UIFormInput"
           :initial-props="{ label: 'label', placeholder: 'placeholder' }"
           :props-schema="formInputPropsSchema"
-          :default-component-background="false"
+          :default-preview-background="false"
         />
         <ComponentViewer
           :component="UIFormInput"
           :initial-props="{ label: 'label', placeholder: 'placeholder', required: true }"
           :props-schema="formInputPropsSchema"
-          :default-component-background="false"
+          :default-preview-background="false"
         />
       </ComponentListViewer>
     </div>

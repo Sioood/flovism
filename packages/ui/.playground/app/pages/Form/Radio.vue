@@ -23,19 +23,19 @@ const formRadioPropsSchema: PropDefinition[] = [
           :component="UIFormRadio"
           :initial-props="{ label: 'Radio', name: 'radio', value: 'radio', color: 'gray' }"
           :props-schema="formRadioPropsSchema"
-          :default-component-background="false"
+          :default-preview-background="false"
         />
         <ComponentViewer
           :component="UIFormRadio"
           :initial-props="{ label: 'Radio', name: 'radio', value: 'radio', color: 'gray', size: 'sm' }"
           :props-schema="formRadioPropsSchema"
-          :default-component-background="false"
+          :default-preview-background="false"
         />
         <ComponentViewer
           :component="UIFormRadio"
           :initial-props="{ label: 'Checkbox', name: 'checkbox', value: 'checkbox', type: 'checkbox' }"
           :props-schema="formRadioPropsSchema"
-          :default-component-background="false"
+          :default-preview-background="false"
         />
       </ComponentListViewer>
     </div>

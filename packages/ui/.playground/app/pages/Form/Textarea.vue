@@ -22,7 +22,7 @@ const formTextareaPropsSchema: PropDefinition[] = [
           :component="UIFormTextarea"
           :initial-props="{ label: 'Message', placeholder: 'Enter your message here...', rows: 6, required: true }"
           :props-schema="formTextareaPropsSchema"
-          :default-component-background="false"
+          :default-preview-background="false"
         />
       </ComponentListViewer>
     </div>
