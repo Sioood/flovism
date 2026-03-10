@@ -61,6 +61,7 @@ const pictoPropsSchema: PropDefinition[] = [
         <ComponentViewer
           v-for="icon in iconsNames"
           :key="icon"
+          :title="`Preview ${icon.split(':').pop()}`"
           :component="UIPicto"
           :initial-props="{ intent: 'primary', size: 'md', color: 'gray', iconName: icon }"
           :props-schema="pictoPropsSchema"
