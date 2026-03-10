@@ -5,7 +5,7 @@ import type { PropDefinition } from '~/components/ComponentViewer.vue'
 
 const buttonPropsSchema: PropDefinition[] = [
   { name: 'intent', type: 'string', default: 'primary', options: ['primary'] },
-  { name: 'size', type: 'string', default: 'md', options: ['sm', 'md', 'lg'] },
+  { name: 'size', type: 'string', default: 'md', options: ['xs', 'sm', 'md', 'lg'] },
   { name: 'color', type: 'string', default: 'red', options: ['red', 'blue', 'green', 'yellow', 'gray', 'black'] },
   { name: 'iconName', type: 'string', required: false },
   { name: 'isLinkButton', type: 'boolean', required: false },
@@ -32,6 +32,35 @@ const buttonPropsSchema: PropDefinition[] = [
           :initial-props="{ intent: 'primary', size: 'md', color, iconName: 'custom:plus' }"
           :props-schema="buttonPropsSchema"
         />
+      </ComponentListViewer>
+
+      <ComponentListViewer title="Join">
+        <ComponentViewerWrapper
+          :component="UIButton"
+          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :props-schema="buttonPropsSchema"
+        >
+          <template #preview>
+            <div class="join join-horizontal">
+              <UIButton class="join-item" color="red"> Left </UIButton>
+              <UIButton class="join-item" color="blue"> Right </UIButton>
+            </div>
+          </template>
+        </ComponentViewerWrapper>
+
+        <ComponentViewerWrapper
+          :component="UIButton"
+          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :props-schema="buttonPropsSchema"
+        >
+          <template #preview>
+            <div class="join join-horizontal">
+              <UIButton class="join-item" color="red"> First </UIButton>
+              <UIButton class="join-item" color="yellow"> Middle </UIButton>
+              <UIButton class="join-item" color="green"> Last </UIButton>
+            </div>
+          </template>
+        </ComponentViewerWrapper>
       </ComponentListViewer>
     </div>
   </div>

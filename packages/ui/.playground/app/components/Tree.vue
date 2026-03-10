@@ -8,7 +8,7 @@ interface TreeEntry {
   path?: string
 }
 
-const componentPaths = import.meta.glob('~ui/components/**/*.vue', { eager: false })
+const componentPaths = import.meta.glob('~/pages/**/*.vue', { eager: false })
 const pathStrings = Object.keys(componentPaths)
 
 function pathToTitle(filename: string): string {
@@ -20,7 +20,8 @@ type TreeMap = Map<string, { title: string; icon: string; children?: TreeMap; pa
 function buildTree(paths: string[]): TreeEntry[] {
   const root: TreeMap = new Map()
   for (const raw of paths) {
-    const relative = raw.includes('components/') ? raw.slice(raw.indexOf('components/') + 'components/'.length) : raw
+    if (raw.includes('index.vue')) continue
+    const relative = raw.includes('pages/') ? raw.slice(raw.indexOf('pages/') + 'pages/'.length) : raw
     const parts = relative
       .replace(/\.vue$/i, '')
       .split('/')
