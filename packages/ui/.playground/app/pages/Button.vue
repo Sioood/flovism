@@ -5,7 +5,7 @@ import type { PropDefinition } from '~/components/ComponentViewer.vue'
 
 const buttonPropsSchema: PropDefinition[] = [
   { name: 'intent', type: 'string', default: 'primary', options: ['primary'] },
-  { name: 'size', type: 'string', default: 'md', options: ['sm', 'md', 'lg'] },
+  { name: 'size', type: 'string', default: 'md', options: ['xs', 'sm', 'md', 'lg'] },
   { name: 'color', type: 'string', default: 'red', options: ['red', 'blue', 'green', 'yellow', 'gray', 'black'] },
   { name: 'iconName', type: 'string', required: false },
   { name: 'isLinkButton', type: 'boolean', required: false },
