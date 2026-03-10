@@ -14,18 +14,17 @@ const props = withDefaults(
   defineProps<{
     component: Component & { __name?: string }
     initialProps?: Record<string, unknown>
-    defaultComponentBackground?: boolean
+    defaultPreviewBackground?: boolean
     propsSchema?: PropDefinition[]
   }>(),
   {
     initialProps: () => ({}),
     propsSchema: undefined,
-    defaultComponentBackground: true,
+    defaultPreviewBackground: true,
   },
 )
 
 const currentProps = ref<Record<string, unknown>>({ ...props.initialProps })
-const componentBackground = ref<boolean>(props.defaultComponentBackground ?? true)
 
 watch(
   () => props.initialProps,
@@ -113,19 +112,13 @@ function parsePropValue(value: string, type: string | undefined): unknown {
 </script>
 
 <template>
-  <div class="rounded-lg border border-gray-200 p-4">
-    <section class="mb-4">
-      <h3 class="mb-2 font-medium text-gray-500">Preview {{ component.__name }}</h3>
-      <div class="relative flex min-h-10 items-center justify-center rounded border border-gray-200 p-6" :class="{ 'bg-gray-200': componentBackground }">
-        <button class="absolute top-2 right-2 cursor-pointer rounded-md p-1 hover:bg-gray-300" @click="componentBackground = !componentBackground">
-          <Icon name="ic:baseline-lightbulb" class="size-3 text-gray-400" mode="svg" />
-        </button>
-        <component :is="component" v-if="component" v-bind="currentProps">
-          <slot />
-        </component>
-        <span v-else class="text-gray-500">No component</span>
-      </div>
-    </section>
+  <ComponentViewerWrapper :title="`Preview ${component.__name ?? ''}`.trim()" :default-preview-background="defaultPreviewBackground" empty-label="No component">
+    <template #preview>
+      <component :is="component" v-if="component" v-bind="currentProps">
+        <slot />
+      </component>
+      <span v-else class="text-gray-500">No component</span>
+    </template>
 
     <section class="mb-4">
       <details>
@@ -197,5 +190,5 @@ function parsePropValue(value: string, type: string | undefined): unknown {
         </ul>
       </details>
     </section>
-  </div>
+  </ComponentViewerWrapper>
 </template>
