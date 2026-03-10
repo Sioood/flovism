@@ -33,6 +33,35 @@ const buttonPropsSchema: PropDefinition[] = [
           :props-schema="buttonPropsSchema"
         />
       </ComponentListViewer>
+
+      <ComponentListViewer title="Join">
+        <ComponentViewerWrapper
+          :component="UIButton"
+          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :props-schema="buttonPropsSchema"
+        >
+          <template #preview>
+            <div class="join join-horizontal">
+              <UIButton class="join-item" color="red"> Left </UIButton>
+              <UIButton class="join-item" color="blue"> Right </UIButton>
+            </div>
+          </template>
+        </ComponentViewerWrapper>
+
+        <ComponentViewerWrapper
+          :component="UIButton"
+          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :props-schema="buttonPropsSchema"
+        >
+          <template #preview>
+            <div class="join join-horizontal">
+              <UIButton class="join-item" color="red"> First </UIButton>
+              <UIButton class="join-item" color="yellow"> Middle </UIButton>
+              <UIButton class="join-item" color="green"> Last </UIButton>
+            </div>
+          </template>
+        </ComponentViewerWrapper>
+      </ComponentListViewer>
     </div>
   </div>
 </template>
