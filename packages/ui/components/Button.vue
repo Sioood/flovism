@@ -13,14 +13,12 @@ const button = cva('button', {
       lg: 'px-8 py-4 text-[2rem] leading-[2.75rem] -outline-offset-2 hover:outline-4 active:scale-97 data-[has-icon="true"]:gap-3',
     },
     color: {
-      red: 'border-red-500 bg-red-500 text-white outline-red-600 [&_path]:!fill-white [&_path]:!stroke-white [&_svg]:!fill-white [&_svg]:!stroke-white',
-      blue: 'border-blue-500 bg-blue-500 text-white outline-blue-600 [&_path]:!fill-white [&_path]:!stroke-white [&_svg]:!fill-white [&_svg]:!stroke-white',
-      green: 'border-green-500 bg-green-500 text-black outline-green-600 [&_path]:!fill-black [&_path]:!stroke-black [&_svg]:!fill-black [&_svg]:!stroke-black',
-      yellow:
-        'border-black-500 outline-black-600 bg-yellow-500 text-black [&_path]:!fill-black [&_path]:!stroke-black [&_svg]:!fill-black [&_svg]:!stroke-black',
-      gray: 'border-gray-500 bg-gray-500 text-white outline-gray-600 [&_path]:!fill-white [&_path]:!stroke-white [&_svg]:!fill-white [&_svg]:!stroke-white',
-      black:
-        'border-black bg-black text-white !outline-none hover:bg-gray-200 hover:text-black [&_path]:!fill-white [&_path]:!stroke-white hover:[&_path]:!fill-black hover:[&_path]:!stroke-black [&_svg]:!fill-white [&_svg]:!stroke-white hover:[&_svg]:!fill-black hover:[&_svg]:!stroke-black',
+      red: 'border-red-500 bg-red-500 text-white outline-red-600',
+      blue: 'border-blue-500 bg-blue-500 text-white outline-blue-600',
+      green: 'border-green-500 bg-green-500 text-black outline-green-600',
+      yellow: 'border-black-500 bg-yellow-500 text-black outline-black',
+      gray: 'border-gray-500 bg-gray-500 text-white outline-gray-600',
+      black: 'border-black bg-black text-white !outline-none hover:bg-gray-200 hover:text-black',
     },
     disabled: {
       true: 'cursor-not-allowed opacity-75',
@@ -31,7 +29,7 @@ const button = cva('button', {
 
 type ButtonProps = VariantProps<typeof button>
 
-const icon = cva('icon', {
+const icon = cva('icon shrink-0', {
   variants: {
     size: {
       xs: 'size-3',
@@ -76,6 +74,12 @@ withDefaults(
     :data-has-icon="!!iconName"
   >
     <slot />
-    <Icon v-if="!!iconName" :name="iconName" mode="svg" :class="icon({ size })" />
+    <Icon
+      v-if="!!iconName"
+      :name="iconName"
+      mode="svg"
+      class="text-inherit [&_svg]:fill-current [&_svg]:stroke-current [&_svg_*]:fill-current [&_svg_*]:stroke-current"
+      :class="icon({ size })"
+    />
   </component>
 </template>

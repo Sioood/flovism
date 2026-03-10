@@ -1,0 +1,7 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M3.51472 3.51458C-1.17157 8.20087 -1.17157 15.7988 3.51472 20.4851L20.4853 3.51458C15.799 -1.17171 8.20101 -1.17171 3.51472 3.51458Z"
+    fill="currentColor" />
+  <circle cx="12" cy="11.9999" r="10.5" transform="rotate(45 12 11.9999)" stroke="currentColor"
+    stroke-width="3" />
+</svg>

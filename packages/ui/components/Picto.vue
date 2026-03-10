@@ -7,18 +7,16 @@ const picto = cva('picto', {
       primary: 'hover:outline-dashed',
     },
     size: {
-      sm: 'p-2 -outline-offset-1 hover:outline-2 active:scale-97',
-      md: 'p-2.5 -outline-offset-2 hover:outline-3 active:scale-97',
+      sm: 'p-2 -outline-offset-1 hover:outline-2',
+      md: 'p-2.5 -outline-offset-2 hover:outline-3',
     },
     color: {
-      red: 'border-red-500 bg-red-500 text-white outline-red-600 [&_path]:!fill-white [&_path]:!stroke-white [&_svg]:!fill-white [&_svg]:!stroke-white',
-      blue: 'border-blue-500 bg-blue-500 text-white outline-blue-600 [&_path]:!fill-white [&_path]:!stroke-white [&_svg]:!fill-white [&_svg]:!stroke-white',
-      green: 'border-green-500 bg-green-500 text-black outline-green-600 [&_path]:!fill-black [&_path]:!stroke-black [&_svg]:!fill-black [&_svg]:!stroke-black',
-      yellow:
-        'border-black-500 outline-black-600 bg-yellow-500 text-black [&_path]:!fill-black [&_path]:!stroke-black [&_svg]:!fill-black [&_svg]:!stroke-black',
-      gray: 'border-gray-500 bg-gray-500 text-white outline-gray-600 [&_path]:!fill-white [&_path]:!stroke-white [&_svg]:!fill-white [&_svg]:!stroke-white',
-      black:
-        'border-black bg-black text-white !outline-none hover:bg-gray-200 hover:text-black [&_path]:!fill-white [&_path]:!stroke-white hover:[&_path]:!fill-black hover:[&_path]:!stroke-black [&_svg]:!fill-white [&_svg]:!stroke-white hover:[&_svg]:!fill-black hover:[&_svg]:!stroke-black',
+      red: 'border-red-500 bg-red-500 text-white outline-red-600',
+      blue: 'border-blue-500 bg-blue-500 text-white outline-blue-600',
+      green: 'border-green-500 bg-green-500 text-black outline-green-600',
+      yellow: 'border-black-500 bg-yellow-500 text-black outline-black',
+      gray: 'border-gray-500 bg-gray-500 text-red-500 outline-gray-600',
+      black: 'border-black bg-black text-white !outline-none hover:bg-gray-200 hover:text-black',
     },
   },
 })
@@ -64,6 +62,12 @@ withDefaults(
     "
     class="flex size-fit items-center justify-center rounded-full whitespace-nowrap"
   >
-    <Icon v-if="!!iconName" :name="iconName" mode="svg" :class="icon({ size })" />
+    <Icon
+      v-if="!!iconName"
+      :name="iconName"
+      mode="svg"
+      class="text-inherit [&_svg]:fill-current [&_svg]:stroke-current [&_svg_*]:fill-current [&_svg_*]:stroke-current"
+      :class="icon({ size })"
+    />
   </div>
 </template>

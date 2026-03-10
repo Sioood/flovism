@@ -3,4 +3,8 @@
     stroke-linejoin="round" />
   <path d="M22 12H2" stroke="currentColor" stroke-width="3" stroke-linecap="round"
     stroke-linejoin="round" />
+  <circle cx="6" cy="6" r="2" fill="currentColor" />
+  <circle cx="17" cy="20" r="2" fill="currentColor" />
+  <circle cx="20" cy="5" r="2" fill="currentColor" />
+  <circle cx="7" cy="17" r="2" fill="currentColor" />
 </svg>
