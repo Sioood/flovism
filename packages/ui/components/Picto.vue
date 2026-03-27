@@ -40,7 +40,7 @@ withDefaults(
     intent?: PictoProps['intent']
     size?: PictoProps['size']
     color?: PictoProps['color']
-    iconName?: string
+    iconName?: CustomIconName | string
   }>(),
   {
     intent: 'primary',

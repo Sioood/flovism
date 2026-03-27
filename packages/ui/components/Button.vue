@@ -13,12 +13,12 @@ const button = cva('button', {
       lg: 'px-8 py-4 text-[2rem] leading-[2.75rem] -outline-offset-2 hover:outline-4 active:scale-97 data-[has-icon="true"]:gap-3',
     },
     color: {
-      red: 'border-red-500 bg-red-500 text-white outline-red-600',
-      blue: 'border-blue-500 bg-blue-500 text-white outline-blue-600',
-      green: 'border-green-500 bg-green-500 text-black outline-green-600',
-      yellow: 'border-black-500 bg-yellow-500 text-black outline-black',
-      gray: 'border-gray-500 bg-gray-500 text-white outline-gray-600',
-      black: 'border-black bg-black text-white !outline-none hover:bg-gray-200 hover:text-black',
+      red: 'bg-red-500 text-white outline-red-600',
+      blue: 'bg-blue-500 text-white outline-blue-600',
+      green: 'bg-green-500 text-black outline-green-600',
+      yellow: 'bg-yellow-500 text-black outline-black',
+      gray: 'bg-gray-500 text-white outline-gray-600',
+      black: 'bg-black text-white !outline-none hover:bg-gray-200 hover:text-black',
     },
     disabled: {
       true: 'cursor-not-allowed opacity-75',
@@ -46,7 +46,7 @@ withDefaults(
     intent?: ButtonProps['intent']
     size?: ButtonProps['size']
     color?: ButtonProps['color']
-    iconName?: string
+    iconName?: CustomIconName | string
   }>(),
   {
     intent: 'primary',
