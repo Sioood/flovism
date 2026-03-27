@@ -46,7 +46,7 @@ withDefaults(
     intent?: ButtonProps['intent']
     size?: ButtonProps['size']
     color?: ButtonProps['color']
-    iconName?: string
+    iconName?: CustomIconName | string
   }>(),
   {
     intent: 'primary',

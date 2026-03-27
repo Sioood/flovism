@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { cva, type VariantProps } from 'class-variance-authority'
 
+import type { CustomIconName } from '~ui/utils/icon'
+
 const label = cva('label', {
   variants: {
     size: {
@@ -31,7 +33,7 @@ withDefaults(
     size?: LabelProps['size']
     color?: LabelProps['color']
     state?: 'default' | 'active'
-    iconName?: string
+    iconName?: CustomIconName | string
   }>(),
   {
     intent: 'primary',
