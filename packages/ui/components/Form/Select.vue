@@ -37,7 +37,7 @@ type ModelValue = string | string[]
 const trigger = cva('select-trigger', {
   variants: {
     size: {
-      md: 'px-4 py-2 leading-[1.375rem]',
+      md: 'px-4 py-2 text-sub',
     },
     color: {
       gray: 'bg-gray-200 text-black data-[placeholder]:text-gray-500',
@@ -53,7 +53,7 @@ const trigger = cva('select-trigger', {
 const content = cva('select-content', {
   variants: {
     size: {
-      md: 'leading-[1.375rem]',
+      md: 'text-sub',
     },
     color: {
       gray: 'bg-gray-200 text-black',
@@ -68,9 +68,9 @@ const item = cva('select-item', {
       md: 'px-1 py-2',
     },
     color: {
-      gray: 'px-4 py-2 leading-[1.375rem] data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-300 data-[state=checked]:bg-gray-300',
+      gray: 'px-4 py-2 text-sub data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-300 data-[state=checked]:bg-gray-300',
       darkerGray:
-        'px-4 py-2 leading-[1.375rem] data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-400 data-[state=checked]:bg-gray-400',
+        'px-4 py-2 text-sub data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-400 data-[state=checked]:bg-gray-400',
     },
   },
 })
@@ -80,7 +80,7 @@ type SelectProps = VariantProps<typeof trigger>
 const labelElement = cva('label', {
   variants: {
     size: {
-      md: 'text-[1.375rem]',
+      md: 'text-base',
     },
   },
 })

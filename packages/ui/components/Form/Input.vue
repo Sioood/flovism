@@ -4,8 +4,8 @@ import { cva, type VariantProps } from 'class-variance-authority'
 const input = cva('input', {
   variants: {
     size: {
-      sm: 'px-4 py-3 text-[0.875rem]',
-      md: 'px-5 py-4 text-[1.375rem]',
+      sm: 'px-4 py-3 text-sub-sub',
+      md: 'px-5 py-4 text-base',
     },
     color: {
       gray: 'bg-gray-200 text-black placeholder-gray-500',
@@ -18,8 +18,8 @@ type InputProps = VariantProps<typeof input>
 const labelElement = cva('label', {
   variants: {
     size: {
-      sm: 'text-[0.875rem]',
-      md: 'text-[1.375rem]',
+      sm: 'text-sub-sub',
+      md: 'text-base',
     },
   },
 })

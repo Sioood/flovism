@@ -27,8 +27,8 @@ const labelElement = cva('label', {
       ghost: 'bg-transparent text-black',
     },
     size: {
-      sm: 'px-4 py-2 text-[0.875rem]',
-      md: 'px-5 py-4 text-[1.375rem]',
+      sm: 'px-4 py-2 text-sub-sub',
+      md: 'px-5 py-4 text-base',
     },
   },
 })

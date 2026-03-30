@@ -28,7 +28,7 @@ const fileUploadDropZone = cva(
   {
     variants: {
       size: {
-        md: 'p-4 leading-[1.375rem]',
+        md: 'p-4 text-sub',
       },
       color: {
         gray: 'border-gray-400 bg-gray-300 text-gray-500',
@@ -109,7 +109,7 @@ const removeTileButton = cva('absolute top-2 right-2')
 const labelElement = cva('label', {
   variants: {
     size: {
-      md: 'text-[1.375rem]',
+      md: 'text-base',
     },
   },
 })
