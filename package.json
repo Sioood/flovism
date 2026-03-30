@@ -75,7 +75,8 @@
           "nuxt-essentials",
           "ui",
           "web",
-          "admin"
+          "admin",
+          "api"
         ]
       ],
       "type-enum": [
