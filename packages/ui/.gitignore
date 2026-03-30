@@ -22,6 +22,3 @@ dist
 
 # JetBrains/WebStorm
 .idea/
-
-# auto-generated icons
-utils/icon.ts
