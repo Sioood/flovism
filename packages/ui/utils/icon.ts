@@ -22,6 +22,7 @@ export const customIconList = [
   'infos',
   'lang-en',
   'lang-fr',
+  'logo',
   'minus',
   'mirror',
   'paragraph',
