@@ -27,8 +27,8 @@ const labelElement = cva('label', {
       ghost: 'bg-transparent text-black',
     },
     size: {
-      sm: 'px-4 py-2 text-[0.875rem]',
-      md: 'px-5 py-4 text-[1.375rem]',
+      sm: 'px-4 py-2 text-sub-sub',
+      md: 'px-5 py-4 text-base',
     },
   },
 })
@@ -37,6 +37,7 @@ const props = withDefaults(
   defineProps<{
     id?: string
     label?: string
+    error?: string | string[]
     modelValue?: string | boolean
     value?: string
     size?: RadioProps['size']
@@ -49,6 +50,7 @@ const props = withDefaults(
   {
     id: '',
     label: '',
+    error: () => [],
     name: '',
     value: '',
     modelValue: '',
@@ -75,7 +77,7 @@ function handleChange(event: Event) {
 </script>
 
 <template>
-  <fieldset class="flex items-center gap-3">
+  <fieldset class="flex w-full flex-col gap-1">
     <label :class="labelElement({ size, color })" class="flex cursor-pointer items-center gap-3 rounded-full">
       <input
         :id="id || `${name}-${value}`"
@@ -98,5 +100,10 @@ function handleChange(event: Event) {
       <span v-if="label" class="select-none">{{ label }}</span>
       <span v-if="required">*</span>
     </label>
+    <template v-if="Array.isArray(error) ? error.length > 0 : !!error">
+      <p v-for="(message, index) in Array.isArray(error) ? error : [error]" :key="`${index}-${message}`" class="text-sm text-red-700">
+        {{ message }}
+      </p>
+    </template>
   </fieldset>
 </template>

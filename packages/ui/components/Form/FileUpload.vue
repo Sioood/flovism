@@ -10,7 +10,7 @@ type FileRejection = {
   reason: FileRejectionReason
 }
 
-const fileUploadRoot = cva('flex flex-col gap-4')
+const fileUploadRoot = cva('flex w-full flex-col')
 
 const fileUploadWrap = cva('rounded-[1.875rem] p-2', {
   variants: {
@@ -28,7 +28,7 @@ const fileUploadDropZone = cva(
   {
     variants: {
       size: {
-        md: 'p-4 leading-[1.375rem]',
+        md: 'p-4 text-sub',
       },
       color: {
         gray: 'border-gray-400 bg-gray-300 text-gray-500',
@@ -109,7 +109,7 @@ const removeTileButton = cva('absolute top-2 right-2')
 const labelElement = cva('label', {
   variants: {
     size: {
-      md: 'text-[1.375rem]',
+      md: 'text-base',
     },
   },
 })
@@ -121,6 +121,7 @@ const props = withDefaults(
     id?: string
     name?: string
     label?: string
+    error?: string | string[]
     placeholder?: string
     modelValue?: FileModelValue
     size?: FileUploadLayoutProps['size']
@@ -140,6 +141,7 @@ const props = withDefaults(
     id: '',
     name: '',
     label: '',
+    error: () => [],
     placeholder: 'fileUpload_placeholder',
     modelValue: null,
     size: 'md',
@@ -305,7 +307,7 @@ function removeFile(index: number): void {
 
 const { isOverDropZone } = useDropZone(dropZoneRef, {
   multiple: props.multiple,
-  onDrop: (files) => {
+  onDrop: (files: File[] | null) => {
     if (!files) return
     processIncomingFiles(files)
   },
@@ -383,5 +385,10 @@ const { isOverDropZone } = useDropZone(dropZoneRef, {
         </div>
       </div>
     </div>
+    <template v-if="Array.isArray(error) ? error.length > 0 : !!error">
+      <p v-for="(message, index) in Array.isArray(error) ? error : [error]" :key="`${index}-${message}`" class="mt-1 text-sm text-red-700">
+        {{ message }}
+      </p>
+    </template>
   </fieldset>
 </template>

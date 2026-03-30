@@ -6,7 +6,7 @@ import type { CustomIconName } from '~ui/utils/icon'
 const label = cva('label', {
   variants: {
     size: {
-      md: 'px-4 py-2 leading-[1.375rem] -outline-offset-1 active:scale-97 data-[has-icon="true"]:gap-2',
+      md: 'px-4 py-2 text-sub -outline-offset-1 active:scale-97 data-[has-icon="true"]:gap-2',
     },
     color: {
       gray: 'bg-gray-500 text-white outline-gray-600 hover:outline-2 hover:outline-dashed data-[state="active"]:bg-yellow-500 data-[state="active"]:text-black data-[state="active"]:outline-2 data-[state="active"]:outline-black data-[state="active"]:outline-dashed data-[state="active"]:hover:outline-none',

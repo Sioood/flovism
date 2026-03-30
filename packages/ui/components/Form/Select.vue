@@ -37,7 +37,7 @@ type ModelValue = string | string[]
 const trigger = cva('select-trigger', {
   variants: {
     size: {
-      md: 'px-4 py-2 leading-[1.375rem]',
+      md: 'px-4 py-2 text-sub',
     },
     color: {
       gray: 'bg-gray-200 text-black data-[placeholder]:text-gray-500',
@@ -53,7 +53,7 @@ const trigger = cva('select-trigger', {
 const content = cva('select-content', {
   variants: {
     size: {
-      md: 'leading-[1.375rem]',
+      md: 'text-sub',
     },
     color: {
       gray: 'bg-gray-200 text-black',
@@ -68,9 +68,9 @@ const item = cva('select-item', {
       md: 'px-1 py-2',
     },
     color: {
-      gray: 'px-4 py-2 leading-[1.375rem] data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-300 data-[state=checked]:bg-gray-300',
+      gray: 'px-4 py-2 text-sub data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-300 data-[state=checked]:bg-gray-300',
       darkerGray:
-        'px-4 py-2 leading-[1.375rem] data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-400 data-[state=checked]:bg-gray-400',
+        'px-4 py-2 text-sub data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-gray-400 data-[state=checked]:bg-gray-400',
     },
   },
 })
@@ -80,7 +80,7 @@ type SelectProps = VariantProps<typeof trigger>
 const labelElement = cva('label', {
   variants: {
     size: {
-      md: 'text-[1.375rem]',
+      md: 'text-base',
     },
   },
 })
@@ -89,6 +89,7 @@ const props = withDefaults(
   defineProps<
     {
       label?: string
+      error?: string | string[]
       options?: SelectOption[]
       size?: SelectProps['size']
       color?: SelectProps['color']
@@ -100,6 +101,7 @@ const props = withDefaults(
   >(),
   {
     label: '',
+    error: () => [],
     options: () => [],
     size: 'md',
     color: 'gray',
@@ -200,7 +202,7 @@ const selectedLabel = computed(() => {
 </script>
 
 <template>
-  <fieldset class="flex flex-col">
+  <fieldset class="flex w-full flex-col">
     <label v-if="$slots.label || label" :class="labelElement({ size })">
       <slot name="label">
         {{ label }}
@@ -282,5 +284,10 @@ const selectedLabel = computed(() => {
         </SelectContent>
       </SelectPortal>
     </SelectRoot>
+    <template v-if="Array.isArray(error) ? error.length > 0 : !!error">
+      <p v-for="(message, index) in Array.isArray(error) ? error : [error]" :key="`${index}-${message}`" class="mt-1 text-sm text-red-700">
+        {{ message }}
+      </p>
+    </template>
   </fieldset>
 </template>

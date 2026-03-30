@@ -8,11 +8,16 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-gray-200: #E9E7E2; /* gris très clair */
-  --color-gray-300: #D6D2CD; /* gris clair */
-  --color-gray-400: #C7C1B8; /* gris mid clair */
-  --color-gray-500: #AAA092; /* gris mid */
-  --color-gray-600: #6D6355; /* gris foncé */
+  --color-gray-200: #E9E7E2;
+  /* gris très clair */
+  --color-gray-300: #D6D2CD;
+  /* gris clair */
+  --color-gray-400: #C7C1B8;
+  /* gris mid clair */
+  --color-gray-500: #AAA092;
+  /* gris mid */
+  --color-gray-600: #6D6355;
+  /* gris foncé */
 
   --color-blue-500: #0000FA;
   --color-blue-600: #0000C7;
@@ -34,6 +39,26 @@
 
   /* FONTS */
   --font-primary: 'Miame';
+}
+
+@utility text-sub-sub {
+  @apply text-[0.875rem] leading-5.5;
+}
+
+@utility text-sub {
+  @apply leading-5.5;
+}
+
+@utility text-base {
+  @apply text-[1.375rem] leading-7;
+}
+
+@utility text-subtitle {
+  @apply text-[2rem] leading-11;
+}
+
+@utility text-title {
+  @apply text-[2.5rem] leading-13.25;
 }
 
 html {
@@ -68,7 +93,7 @@ body {
     }
   }
 
-  > .join-item:where(:first-child) {
+  >.join-item:where(:first-child) {
     --join-ss: var(--join-radius);
     --join-se: 0;
     --join-es: var(--join-radius);
@@ -84,7 +109,7 @@ body {
     }
   }
 
-  > .join-item:where(:last-child) {
+  >.join-item:where(:last-child) {
     --join-ss: 0;
     --join-se: var(--join-radius);
     --join-es: 0;
@@ -100,7 +125,7 @@ body {
     }
   }
 
-  > .join-item:where(:only-child) {
+  >.join-item:where(:only-child) {
     --join-ss: var(--join-radius);
     --join-se: var(--join-radius);
     --join-es: var(--join-radius);
@@ -141,7 +166,7 @@ body {
 .join-vertical {
   @apply flex-col;
 
-  > .join-item:first-child {
+  >.join-item:first-child {
     --join-ss: var(--join-radius);
     --join-se: var(--join-radius);
     --join-es: 0;
@@ -157,7 +182,7 @@ body {
     }
   }
 
-  > .join-item:last-child {
+  >.join-item:last-child {
     --join-ss: 0;
     --join-se: 0;
     --join-es: var(--join-radius);
@@ -173,7 +198,7 @@ body {
     }
   }
 
-  > .join-item:only-child {
+  >.join-item:only-child {
     --join-ss: var(--join-radius);
     --join-se: var(--join-radius);
     --join-es: var(--join-radius);
@@ -200,7 +225,7 @@ body {
 .join-horizontal {
   @apply flex-row;
 
-  > .join-item:first-child {
+  >.join-item:first-child {
     --join-ss: var(--join-radius);
     --join-se: 0;
     --join-es: var(--join-radius);
@@ -216,7 +241,7 @@ body {
     }
   }
 
-  > .join-item:last-child {
+  >.join-item:last-child {
     --join-ss: 0;
     --join-se: var(--join-radius);
     --join-es: 0;
@@ -232,7 +257,7 @@ body {
     }
   }
 
-  > .join-item:only-child {
+  >.join-item:only-child {
     --join-ss: var(--join-radius);
     --join-se: var(--join-radius);
     --join-es: var(--join-radius);
