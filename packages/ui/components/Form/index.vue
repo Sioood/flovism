@@ -54,6 +54,8 @@ type FormFieldConfigMap<TData extends Record<string, unknown>> = Partial<{
 }>
 
 type ZodLocaleFactory = () => z.core.$ZodConfig
+type FormLayoutRow<TData extends Record<string, unknown>> = Array<FieldName<TData>>
+type FormLayout<TData extends Record<string, unknown>> = Array<FieldName<TData> | FormLayoutRow<TData>>
 
 const props = withDefaults(
   defineProps<{
@@ -61,12 +63,14 @@ const props = withDefaults(
     defaultValues: TValues
     fields: FormFieldConfigMap<TValues>
     as?: string | Component
+    layout?: FormLayout<TValues>
     submitText?: string
     submittingText?: string
     zodLocale?: string
   }>(),
   {
     as: 'form',
+    layout: () => [],
     submitText: 'Submit',
     submittingText: '...',
     zodLocale: 'en',
@@ -102,6 +106,33 @@ const fieldEntries = computed(() =>
     (entry): entry is [FieldName<TValues>, FormFieldConfig<TValues, FieldName<TValues>>] => Boolean(entry[1]),
   ),
 )
+
+const fieldConfigByName = computed(() => {
+  const result: Partial<Record<FieldName<TValues>, FormFieldConfig<TValues, FieldName<TValues>>>> = {}
+  for (const [name, config] of fieldEntries.value) {
+    result[name] = config
+  }
+  return result
+})
+
+const normalizedLayout = computed(() => {
+  const layout = props.layout
+
+  if (!layout || layout.length === 0) {
+    return fieldEntries.value.map(([name]) => [name] as Array<FieldName<TValues>>)
+  }
+
+  const rows: Array<Array<FieldName<TValues>>> = []
+  for (const row of layout) {
+    if (Array.isArray(row)) {
+      rows.push(row)
+      continue
+    }
+    rows.push([row])
+  }
+
+  return rows
+})
 
 function getSchemaErrors(name: FieldName<TValues>, value: unknown): string[] | undefined {
   const nextValues = {
@@ -197,29 +228,31 @@ function onSubmit(event: Event) {
 <template>
   <component :is="as" @submit="onSubmit">
     <slot :form="form" :fields="fields">
-      <div v-for="[name, fieldConfig] in fieldEntries" :key="name">
-        <form.Field :name="name" :validators="getFieldValidators(name, fieldConfig) as never">
-          <template #default="{ field, state }">
-            <slot :name="`field-${name}`" :field="field" :state="state" :field-name="name" :config="fieldConfig">
-              <label v-if="fieldConfig.label" :for="name">
-                {{ fieldConfig.label }}
-              </label>
+      <div v-for="(row, rowIndex) in normalizedLayout" :key="`row-${rowIndex}`" class="grid grid-cols-1 gap-4 md:grid-cols-12">
+        <div v-for="name in row" :key="name" :class="row.length > 1 ? 'md:col-span-6' : 'md:col-span-12'">
+          <form.Field v-if="fieldConfigByName[name]" :name="name" :validators="getFieldValidators(name, fieldConfigByName[name]!) as never">
+            <template #default="{ field, state }">
+              <slot :name="`field-${name}`" :field="field" :state="state" :field-name="name" :config="fieldConfigByName[name]">
+                <label v-if="fieldConfigByName[name]?.label" :for="name">
+                  {{ fieldConfigByName[name]?.label }}
+                </label>
 
-              <component
-                :is="fieldConfig.as ?? 'input'"
-                :id="name"
-                :name="name"
-                v-bind="fieldConfig.props"
-                :value="field.state.value"
-                :model-value="field.state.value"
-                :error="getFieldError(state)"
-                @update:model-value="(value: unknown) => field.handleChange(value as never)"
-                @input="(event: Event) => field.handleChange(extractInputValue(event) as never)"
-                @blur="field.handleBlur"
-              />
-            </slot>
-          </template>
-        </form.Field>
+                <component
+                  :is="fieldConfigByName[name]?.as ?? 'input'"
+                  :id="name"
+                  :name="name"
+                  v-bind="fieldConfigByName[name]?.props"
+                  :value="field.state.value"
+                  :model-value="field.state.value"
+                  :error="getFieldError(state)"
+                  @update:model-value="(value: unknown) => field.handleChange(value as never)"
+                  @input="(event: Event) => field.handleChange(extractInputValue(event) as never)"
+                  @blur="field.handleBlur"
+                />
+              </slot>
+            </template>
+          </form.Field>
+        </div>
       </div>
 
       <form.Subscribe>

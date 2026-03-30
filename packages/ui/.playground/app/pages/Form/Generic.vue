@@ -89,6 +89,8 @@ const fields = {
 }
 
 const submittedData = ref<string>('')
+type FormLayoutKey = keyof typeof defaultValues
+const layout: Array<FormLayoutKey | FormLayoutKey[]> = [['firstName', 'lastName'], 'bio', 'favoriteColor', 'contactPreference', 'attachment']
 
 function onSubmit(value: Record<string, unknown>) {
   submittedData.value = JSON.stringify(value, null, 2)
@@ -99,10 +101,12 @@ function onSubmit(value: Record<string, unknown>) {
   <div class="flex flex-col gap-6 p-6">
     <ComponentListViewer title="Form Generic" view="list">
       <div class="w-full p-6">
+        <!-- Layout could be by size (sm, md, lg, xl, 2xl) instead of having one fixed layout and responsive in generic form -->
         <UIForm
           :schema="schema"
           :default-values="defaultValues"
           :fields="fields"
+          :layout="layout"
           :zod-locale="locale.startsWith('fr') ? 'fr' : 'en'"
           submit-text="Submit"
           submitting-text="Submitting..."
@@ -113,7 +117,7 @@ function onSubmit(value: Record<string, unknown>) {
             <button
               type="submit"
               :disabled="!canSubmit"
-              class="mt-2 w-fit rounded-full bg-black px-5 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+              class="mt-2 w-full rounded-full bg-black px-5 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               {{ isSubmitting ? '...' : 'Submit' }}
             </button>
