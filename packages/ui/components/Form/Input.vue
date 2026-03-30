@@ -27,6 +27,7 @@ const labelElement = cva('label', {
 withDefaults(
   defineProps<{
     label?: string
+    error?: string | string[]
     placeholder?: string
     modelValue?: string
     size?: InputProps['size']
@@ -37,6 +38,7 @@ withDefaults(
   }>(),
   {
     label: '',
+    error: () => [],
     placeholder: '',
     modelValue: '',
     size: 'md',
@@ -53,7 +55,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <fieldset class="flex flex-col">
+  <fieldset class="flex w-full flex-col">
     <label v-if="label" :class="labelElement({ size })">
       {{ label }}
       <span v-if="required">*</span>
@@ -72,5 +74,10 @@ const emit = defineEmits<{
       class="w-full rounded-full outline-none focus:outline-none disabled:cursor-not-allowed disabled:opacity-75"
       @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
+    <template v-if="Array.isArray(error) ? error.length > 0 : !!error">
+      <p v-for="(message, index) in Array.isArray(error) ? error : [error]" :key="`${index}-${message}`" class="mt-1 text-sm text-red-700">
+        {{ message }}
+      </p>
+    </template>
   </fieldset>
 </template>

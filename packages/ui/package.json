@@ -21,10 +21,12 @@
   },
   "dependencies": {
     "@flovism/nuxt-essentials": "workspace:^",
+    "@tanstack/vue-form": "^1.24.1",
     "@tailwindcss/vite": "^4.2.1",
     "class-variance-authority": "^0.7.1",
     "reka-ui": "^2.9.0",
-    "tailwindcss": "^4.2.1"
+    "tailwindcss": "^4.2.1",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@flovism/eslint": "workspace:^",
