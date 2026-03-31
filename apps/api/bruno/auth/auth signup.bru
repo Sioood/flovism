@@ -6,7 +6,7 @@ meta {
 
 post {
   url: {{baseUrl}}/api/v1/auth/signup
-  body: formUrlEncoded
+  body: json
   auth: none
 }
 
@@ -14,9 +14,11 @@ headers {
   content-type: application/json
 }
 
-body:form-urlencoded {
-  email: {{auth.defaultUserEmail}}
-  password: {{auth.defaultUserPassword}}
-  passwordConfirmation: {{auth.defaultUserPassword}}
-  fullName: {{auth.defaultUserFullName}}
+body:json {
+  {
+    "email": "{{auth.defaultUserEmail}}",
+    "fullName": "{{auth.defaultUserFullName}}",
+    "password": "{{auth.defaultUserPassword}}",
+    "passwordConfirmation": "{{auth.defaultUserPassword}}"
+  }
 }
