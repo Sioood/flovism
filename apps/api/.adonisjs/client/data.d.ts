@@ -4,8 +4,8 @@
  */
 
 /// <reference path="./manifest.d.ts" />
-import type UserTransformer from '#transformers/user_transformer'
 import type { InferData, InferVariants } from '@adonisjs/core/types/transformers'
+import type UserTransformer from '#transformers/user_transformer'
 
 export namespace Data {
   export type User = InferData<UserTransformer>

@@ -11,7 +11,7 @@ export default eslint(
     typescript: true,
   },
   {
-    ignores: ['.adonisjs/**'],
+    ignores: ['.adonisjs/**', '.cursor/**'],
   },
   {
     files: ['config/{auth,encryption,hash,logger}.ts', 'tests/bootstrap.ts'],

@@ -13,7 +13,7 @@ import { controllers } from '#generated/controllers'
 import { middleware } from '#start/kernel'
 
 router.get('/', () => {
-  return { hello: 'world' }
+  return { hell: 'world' }
 })
 
 router
