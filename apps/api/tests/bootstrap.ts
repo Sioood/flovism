@@ -1,13 +1,14 @@
-import { assert } from '@japa/assert'
-import { apiClient } from '@japa/api-client'
-import app from '@adonisjs/core/services/app'
-import type { Config } from '@japa/runner/types'
-import { pluginAdonisJS } from '@japa/plugin-adonisjs'
-import { dbAssertions } from '@adonisjs/lucid/plugins/db'
-import testUtils from '@adonisjs/core/services/test_utils'
 import { authApiClient } from '@adonisjs/auth/plugins/api_client'
+import app from '@adonisjs/core/services/app'
+import testUtils from '@adonisjs/core/services/test_utils'
+import { dbAssertions } from '@adonisjs/lucid/plugins/db'
 import { sessionApiClient } from '@adonisjs/session/plugins/api_client'
+import { apiClient } from '@japa/api-client'
+import { assert } from '@japa/assert'
+import { pluginAdonisJS } from '@japa/plugin-adonisjs'
+
 import type { Registry } from '../.adonisjs/client/registry/schema.d.ts'
+import type { Config } from '@japa/runner/types'
 
 /**
  * This file is imported by the "bin/test.ts" entrypoint file
@@ -24,14 +25,7 @@ declare module '@japa/api-client/types' {
  * Configure Japa plugins in the plugins array.
  * Learn more - https://japa.dev/docs/runner-config#plugins-optional
  */
-export const plugins: Config['plugins'] = [
-  assert(),
-  pluginAdonisJS(app),
-  dbAssertions(app),
-  apiClient(),
-  sessionApiClient(app),
-  authApiClient(app),
-]
+export const plugins: Config['plugins'] = [assert(), pluginAdonisJS(app), dbAssertions(app), apiClient(), sessionApiClient(app), authApiClient(app)]
 
 /**
  * Configure lifecycle function to run before and after all the
