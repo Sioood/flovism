@@ -18,6 +18,12 @@ catalogs:
     eslint:
       specifier: ^10.1.0
       version: 10.1.0
+    nanoid:
+      specifier: ^5.1.7
+      version: 5.1.7
+    nanoid-dictionary:
+      specifier: ^5.0.0
+      version: 5.0.0
     nuxt:
       specifier: ^4.3.1
       version: 4.3.1
@@ -159,6 +165,12 @@ importers:
       luxon:
         specifier: ^3.7.2
         version: 3.7.2
+      nanoid:
+        specifier: 'catalog:'
+        version: 5.1.7
+      nanoid-dictionary:
+        specifier: 'catalog:'
+        version: 5.0.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -6955,6 +6967,9 @@ packages:
   muggle-string@0.4.1:
     resolution: { integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ== }
 
+  nanoid-dictionary@5.0.0:
+    resolution: { integrity: sha512-/iCyQHwt36XkaIvSE9fcC8p6DiMPCZMTSMj9UT56Cv6T7f5CuxvOMhpNncaNieQ4z4d32p7ruEtAfRsb7Ya8Gw== }
+
   nanoid@3.3.11:
     resolution: { integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w== }
     engines: { node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1 }
@@ -6962,6 +6977,11 @@ packages:
 
   nanoid@5.1.5:
     resolution: { integrity: sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw== }
+    engines: { node: ^18 || >=20 }
+    hasBin: true
+
+  nanoid@5.1.7:
+    resolution: { integrity: sha512-ua3NDgISf6jdwezAheMOk4mbE1LXjm1DfMUDMuJf4AqxLFK3ccGpgWizwa5YV7Yz9EpXwEaWoRXSb/BnV0t5dQ== }
     engines: { node: ^18 || >=20 }
     hasBin: true
 
@@ -16584,9 +16604,13 @@ snapshots:
 
   muggle-string@0.4.1: {}
 
+  nanoid-dictionary@5.0.0: {}
+
   nanoid@3.3.11: {}
 
   nanoid@5.1.5: {}
+
+  nanoid@5.1.7: {}
 
   nanotar@0.2.0: {}
 

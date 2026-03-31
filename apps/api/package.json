@@ -37,7 +37,8 @@
     "#database/*": "./database/*.js",
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
-    "#config/*": "./config/*.js"
+    "#config/*": "./config/*.js",
+    "#utils/*": "./utils/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^8.3.0",
@@ -70,7 +71,9 @@
     "@vinejs/vine": "^4.3.0",
     "better-sqlite3": "^12.8.0",
     "luxon": "^3.7.2",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "nanoid": "catalog:",
+    "nanoid-dictionary": "catalog:"
   },
   "hotHook": {
     "boundaries": [

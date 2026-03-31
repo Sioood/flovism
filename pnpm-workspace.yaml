@@ -8,6 +8,8 @@ catalog:
   '@nuxt/kit': ^4.3.1
   '@nuxtjs/i18n': ^10.2.3
   eslint: ^10.1.0
+  nanoid: ^5.1.7
+  nanoid-dictionary: ^5.0.0
   nuxt: ^4.3.1
   oxlint: ^1.51.0
   prettier: ^3.8.1
