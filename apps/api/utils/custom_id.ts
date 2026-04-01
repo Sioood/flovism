@@ -6,6 +6,23 @@ export const nanoid = customAlphabet(nolookalikesSafe, nanoidLength)
 
 export const ids = {
   user: 'user',
+  language: 'lang',
+  upload: 'upl',
+  project: 'project',
+  projectTranslation: 'prjtr',
+  projectCategory: 'prjcat',
+  projectImage: 'prjimg',
+  projectImageTranslation: 'prjimgtr',
+  font: 'font',
+  fontTranslation: 'fonttr',
+  fontFilter: 'fontfilter',
+  fontFamily: 'fontfam',
+  fontFamilyTranslation: 'fontfamtr',
+  fontStyle: 'fontstyle',
+  fontStyleTranslation: 'fontstyletr',
+  fontFormat: 'fontformat',
+  fontStyleFormatFile: 'fontfile',
+  fontPricingPlan: 'fontprice',
 }
 
 export type IdPrefix = keyof typeof ids

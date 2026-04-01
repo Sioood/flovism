@@ -24,4 +24,18 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   // Session
   SESSION_DRIVER: Env.schema.enum(['cookie', 'memory', 'database'] as const),
+
+  // Database
+  DB_CONNECTION: Env.schema.enum(['pg', 'sqlite'] as const),
+  DB_HOST: Env.schema.string.optional(),
+  DB_PORT: Env.schema.number.optional(),
+  DB_USER: Env.schema.string.optional(),
+  DB_PASSWORD: Env.schema.string.optional(),
+  DB_DATABASE: Env.schema.string.optional(),
+  DB_SSL: Env.schema.boolean.optional(),
+  DB_SSL_REJECT_UNAUTHORIZED: Env.schema.boolean.optional(),
+  DB_SQLITE_PATH: Env.schema.string.optional(),
+
+  // Drive
+  DRIVE_DISK: Env.schema.enum(['fs'] as const),
 })

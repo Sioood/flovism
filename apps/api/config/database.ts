@@ -1,11 +1,13 @@
 import app from '@adonisjs/core/services/app'
 import { defineConfig } from '@adonisjs/lucid'
 
+import env from '#start/env'
+
 const dbConfig = defineConfig({
   /**
    * Default connection used for all queries.
    */
-  connection: 'sqlite',
+  connection: env.get('DB_CONNECTION'),
 
   connections: {
     /**
@@ -15,7 +17,7 @@ const dbConfig = defineConfig({
       client: 'better-sqlite3',
 
       connection: {
-        filename: app.tmpPath('db.sqlite3'),
+        filename: env.get('DB_SQLITE_PATH') || app.tmpPath('db.sqlite3'),
       },
 
       /**
@@ -52,21 +54,26 @@ const dbConfig = defineConfig({
      * PostgreSQL connection.
      * Install package to switch: npm install pg
      */
-    // pg: {
-    //   client: 'pg',
-    //   connection: {
-    //     host: env.get('DB_HOST'),
-    //     port: env.get('DB_PORT'),
-    //     user: env.get('DB_USER'),
-    //     password: env.get('DB_PASSWORD'),
-    //     database: env.get('DB_DATABASE'),
-    //   },
-    //   migrations: {
-    //     naturalSort: true,
-    //     paths: ['database/migrations'],
-    //   },
-    //   debug: app.inDev,
-    // },
+    pg: {
+      client: 'pg',
+      connection: {
+        host: env.get('DB_HOST') || '127.0.0.1',
+        port: env.get('DB_PORT') || 5432,
+        user: env.get('DB_USER') || 'postgres',
+        password: env.get('DB_PASSWORD') || '',
+        database: env.get('DB_DATABASE') || 'flovism_api',
+        ssl: env.get('DB_SSL')
+          ? {
+              rejectUnauthorized: env.get('DB_SSL_REJECT_UNAUTHORIZED') ?? false,
+            }
+          : undefined,
+      },
+      migrations: {
+        naturalSort: true,
+        paths: ['database/migrations'],
+      },
+      debug: app.inDev,
+    },
 
     /**
      * MySQL / MariaDB connection.

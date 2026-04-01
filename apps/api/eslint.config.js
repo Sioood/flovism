@@ -1,13 +1,15 @@
 import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 
 import eslint from '@flovism/eslint'
 
 const require = createRequire(import.meta.url)
 const { configApp } = require('@adonisjs/eslint-config')
+const oxlintConfigPath = fileURLToPath(new URL('../../packages/config/oxlint/.oxlintrc.json', import.meta.url))
 
 export default eslint(
   {
-    oxlint: '../../packages/config/oxlint/.oxlintrc.json',
+    oxlint: oxlintConfigPath,
     typescript: true,
   },
   {

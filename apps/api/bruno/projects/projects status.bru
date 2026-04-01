@@ -1,0 +1,21 @@
+meta {
+  name: projects status
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/projects/{{projectId}}/status
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "statusCode": "in_review"
+  }
+}

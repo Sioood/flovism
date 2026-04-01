@@ -32,6 +32,416 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class ContentStatusSchema extends BaseModel {
+  static $columns = ['code', 'createdAt', 'isPublic', 'label', 'position'] as const
+  $columns = ContentStatusSchema.$columns
+  @column({ isPrimary: true })
+  declare code: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare isPublic: boolean
+  @column()
+  declare label: string
+  @column()
+  declare position: number
+}
+
+export class FontFamilySchema extends BaseModel {
+  static $columns = ['canTrial', 'fontId', 'id', 'internalName', 'price', 'sortOrder'] as const
+  $columns = FontFamilySchema.$columns
+  @column()
+  declare canTrial: boolean
+  @column()
+  declare fontId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare internalName: string
+  @column()
+  declare price: string | null
+  @column()
+  declare sortOrder: number
+}
+
+export class FontFamilyTranslationSchema extends BaseModel {
+  static $columns = ['displayName', 'familyId', 'id', 'languageCode'] as const
+  $columns = FontFamilyTranslationSchema.$columns
+  @column()
+  declare displayName: string
+  @column()
+  declare familyId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare languageCode: string
+}
+
+export class FontFilterFontSchema extends BaseModel {
+  static $columns = ['fontFilterId', 'fontId'] as const
+  $columns = FontFilterFontSchema.$columns
+  @column()
+  declare fontFilterId: string
+  @column({ isPrimary: true })
+  declare fontId: string
+}
+
+export class FontFilterSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'key'] as const
+  $columns = FontFilterSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare key: string
+}
+
+export class FontFormatSchema extends BaseModel {
+  static $columns = ['id', 'key'] as const
+  $columns = FontFormatSchema.$columns
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare key: string
+}
+
+export class FontMetricSchema extends BaseModel {
+  static $columns = ['boringFun', 'displayText', 'fontId', 'readableIllegible', 'scriptGeometric', 'serifSans', 'styleCountScore'] as const
+  $columns = FontMetricSchema.$columns
+  @column()
+  declare boringFun: number
+  @column()
+  declare displayText: number
+  @column({ isPrimary: true })
+  declare fontId: string
+  @column()
+  declare readableIllegible: number
+  @column()
+  declare scriptGeometric: number
+  @column()
+  declare serifSans: number
+  @column()
+  declare styleCountScore: number
+}
+
+export class FontPricingPlanSchema extends BaseModel {
+  static $columns = ['amount', 'currency', 'fontId', 'id', 'isFromPrice', 'licenseKey', 'planType'] as const
+  $columns = FontPricingPlanSchema.$columns
+  @column()
+  declare amount: string
+  @column()
+  declare currency: string
+  @column()
+  declare fontId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare isFromPrice: boolean
+  @column()
+  declare licenseKey: string
+  @column()
+  declare planType: string
+}
+
+export class FontStyleFormatFileSchema extends BaseModel {
+  static $columns = ['formatId', 'id', 'styleId', 'uploadId'] as const
+  $columns = FontStyleFormatFileSchema.$columns
+  @column()
+  declare formatId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare styleId: string
+  @column()
+  declare uploadId: string
+}
+
+export class FontStyleTranslationSchema extends BaseModel {
+  static $columns = ['displayName', 'id', 'languageCode', 'styleId'] as const
+  $columns = FontStyleTranslationSchema.$columns
+  @column()
+  declare displayName: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare languageCode: string
+  @column()
+  declare styleId: string
+}
+
+export class FontStyleSchema extends BaseModel {
+  static $columns = ['canTrial', 'familyId', 'fontId', 'id', 'internalName', 'isVariable', 'price', 'sortOrder'] as const
+  $columns = FontStyleSchema.$columns
+  @column()
+  declare canTrial: boolean
+  @column()
+  declare familyId: string | null
+  @column()
+  declare fontId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare internalName: string
+  @column()
+  declare isVariable: boolean
+  @column()
+  declare price: string | null
+  @column()
+  declare sortOrder: number
+}
+
+export class FontSupportedLanguageSchema extends BaseModel {
+  static $columns = ['fontId', 'languageCode'] as const
+  $columns = FontSupportedLanguageSchema.$columns
+  @column({ isPrimary: true })
+  declare fontId: string
+  @column()
+  declare languageCode: string
+}
+
+export class FontTranslationSchema extends BaseModel {
+  static $columns = ['credit', 'description', 'fontId', 'id', 'languageCode', 'name', 'slug'] as const
+  $columns = FontTranslationSchema.$columns
+  @column()
+  declare credit: string | null
+  @column()
+  declare description: string
+  @column()
+  declare fontId: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare languageCode: string
+  @column()
+  declare name: string
+  @column()
+  declare slug: string
+}
+
+export class FontSchema extends BaseModel {
+  static $columns = [
+    'createdAt',
+    'createdBy',
+    'id',
+    'isVariableGlobal',
+    'previewColor',
+    'publishedAt',
+    'scheduledAt',
+    'statusCode',
+    'updatedAt',
+    'updatedBy',
+    'version',
+    'year',
+  ] as const
+  $columns = FontSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare createdBy: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare isVariableGlobal: boolean
+  @column()
+  declare previewColor: string
+  @column.dateTime()
+  declare publishedAt: DateTime | null
+  @column.dateTime()
+  declare scheduledAt: DateTime | null
+  @column()
+  declare statusCode: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare updatedBy: string | null
+  @column()
+  declare version: string
+  @column()
+  declare year: number
+}
+
+export class LanguageSchema extends BaseModel {
+  static $columns = ['code', 'country', 'createdAt', 'endonym', 'isActive', 'isDefault', 'locale', 'updatedAt'] as const
+  $columns = LanguageSchema.$columns
+  @column({ isPrimary: true })
+  declare code: string
+  @column()
+  declare country: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare endonym: string
+  @column()
+  declare isActive: boolean
+  @column()
+  declare isDefault: boolean
+  @column()
+  declare locale: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ProjectCategorySchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'key'] as const
+  $columns = ProjectCategorySchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare key: string
+}
+
+export class ProjectCategoryProjectSchema extends BaseModel {
+  static $columns = ['projectCategoryId', 'projectId'] as const
+  $columns = ProjectCategoryProjectSchema.$columns
+  @column()
+  declare projectCategoryId: string
+  @column({ isPrimary: true })
+  declare projectId: string
+}
+
+export class ProjectImageTranslationSchema extends BaseModel {
+  static $columns = ['alt', 'id', 'languageCode', 'projectImageId'] as const
+  $columns = ProjectImageTranslationSchema.$columns
+  @column()
+  declare alt: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare languageCode: string
+  @column()
+  declare projectImageId: string
+}
+
+export class ProjectImageSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'projectId', 'sortOrder', 'uploadId'] as const
+  $columns = ProjectImageSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare projectId: string
+  @column()
+  declare sortOrder: number
+  @column()
+  declare uploadId: string
+}
+
+export class ProjectTranslationSchema extends BaseModel {
+  static $columns = ['clientName', 'createdAt', 'credit', 'description', 'id', 'languageCode', 'name', 'projectId', 'slug', 'updatedAt'] as const
+  $columns = ProjectTranslationSchema.$columns
+  @column()
+  declare clientName: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare credit: string | null
+  @column()
+  declare description: string
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare languageCode: string
+  @column()
+  declare name: string
+  @column()
+  declare projectId: string
+  @column()
+  declare slug: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ProjectSchema extends BaseModel {
+  static $columns = [
+    'createdAt',
+    'createdBy',
+    'id',
+    'projectNumber',
+    'projectYear',
+    'publishedAt',
+    'scheduledAt',
+    'statusCode',
+    'updatedAt',
+    'updatedBy',
+  ] as const
+  $columns = ProjectSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare createdBy: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare projectNumber: string
+  @column()
+  declare projectYear: number
+  @column.dateTime()
+  declare publishedAt: DateTime | null
+  @column.dateTime()
+  declare scheduledAt: DateTime | null
+  @column()
+  declare statusCode: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare updatedBy: string | null
+}
+
+export class UploadSchema extends BaseModel {
+  static $columns = [
+    'checksum',
+    'createdAt',
+    'deletedAt',
+    'disk',
+    'extension',
+    'file',
+    'id',
+    'key',
+    'metadata',
+    'mimeType',
+    'originalName',
+    'size',
+    'updatedAt',
+    'uploadedBy',
+    'visibility',
+  ] as const
+  $columns = UploadSchema.$columns
+  @column()
+  declare checksum: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare deletedAt: DateTime | null
+  @column()
+  declare disk: string
+  @column()
+  declare extension: string | null
+  @column()
+  declare file: any | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare key: string
+  @column()
+  declare metadata: any
+  @column()
+  declare mimeType: string
+  @column()
+  declare originalName: string
+  @column()
+  declare size: bigint | number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare uploadedBy: string | null
+  @column()
+  declare visibility: string
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns

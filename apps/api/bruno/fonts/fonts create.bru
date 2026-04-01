@@ -1,0 +1,43 @@
+meta {
+  name: fonts create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/fonts
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "year": 2026,
+    "version": "1.001",
+    "previewColor": "#111111",
+    "isVariableGlobal": false,
+    "styleFormatFiles": [
+      {
+        "styleId": "{{fontStyleId}}",
+        "formatId": "{{fontFormatId}}",
+        "uploadId": "{{uploadId}}"
+      }
+    ],
+    "translations": {
+      "fr_FR": {
+        "slug": "typo-exemple",
+        "name": "Typo Exemple",
+        "description": "Description FR"
+      },
+      "en_US": {
+        "slug": "sample-font",
+        "name": "Sample Font",
+        "description": "EN description"
+      }
+    }
+  }
+}

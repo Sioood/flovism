@@ -1,0 +1,15 @@
+meta {
+  name: projects show
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/projects/{{projectId}}?lang={{lang}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  lang: {{lang}}
+}

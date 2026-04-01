@@ -1,0 +1,11 @@
+meta {
+  name: projects delete
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/api/v1/projects/{{projectId}}
+  body: none
+  auth: inherit
+}
