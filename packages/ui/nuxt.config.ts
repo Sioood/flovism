@@ -23,7 +23,8 @@ export default defineNuxtConfig({
     customCollections: [
       {
         prefix: 'custom',
-        dir: './assets/icons',
+        // Absolute path so apps that `extends` this layer still load icons from the package.
+        dir: resolve('./assets/icons'),
       },
     ],
   },

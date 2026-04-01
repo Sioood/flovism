@@ -84,13 +84,13 @@ const iconMap = {
       <Toaster v-slot="toast" :toaster="toaster">
         <Toast.Root :class="toastRoot({ color: colorTypes[toast.type as keyof typeof colorTypes], size, intent })">
           <Toast.Title :class="toastTitle({ size })">
-            <Icon :name="iconMap[toast.type as keyof typeof iconMap]" class="size-3!" :class="{ 'animate-spin': toast.type === 'loading' }" />
+            <Icon mode="svg" :name="iconMap[toast.type as keyof typeof iconMap]" class="size-3!" :class="{ 'animate-spin': toast.type === 'loading' }" />
             {{ toast.title }}
           </Toast.Title>
           <Toast.Description :class="toastDescription({ size })">{{ toast.description }}</Toast.Description>
           <Toast.CloseTrigger v-if="toast.closable" :class="toastCloseTrigger({ size })">
             <UIButton size="xs" :color="toast.type !== 'error' ? 'red' : 'gray'" intent="primary">
-              <Icon name="custom:cross" />
+              <Icon mode="svg" name="custom:cross" />
             </UIButton>
           </Toast.CloseTrigger>
         </Toast.Root>
