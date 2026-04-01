@@ -71,9 +71,9 @@ const props = withDefaults(
   {
     as: 'form',
     layout: () => [],
-    submitText: 'Submit',
+    submitText: 'submit',
     submittingText: '...',
-    zodLocale: 'en',
+    zodLocale: 'fr',
   },
 )
 
@@ -145,7 +145,6 @@ function getSchemaErrors(name: FieldName<TValues>, value: unknown): string[] | u
     return undefined
   }
 
-  console.log(parsed.error.issues)
   const fieldMessages = (parsed.error.issues ?? [])
     .filter((issue) => {
       if (!Array.isArray(issue.path) || issue.path.length === 0) {
@@ -226,7 +225,7 @@ function onSubmit(event: Event) {
 </script>
 
 <template>
-  <component :is="as" @submit="onSubmit">
+  <component :is="as" class="flex flex-col gap-4" @submit="onSubmit">
     <slot :form="form" :fields="fields">
       <div v-for="(row, rowIndex) in normalizedLayout" :key="`row-${rowIndex}`" class="grid grid-cols-1 gap-4 md:grid-cols-12">
         <div v-for="name in row" :key="name" :class="row.length > 1 ? 'md:col-span-6' : 'md:col-span-12'">
@@ -258,9 +257,11 @@ function onSubmit(event: Event) {
       <form.Subscribe>
         <template #default="{ canSubmit, isSubmitting }">
           <slot name="actions" :form="form" :can-submit="canSubmit" :is-submitting="isSubmitting">
-            <button type="submit" :disabled="!canSubmit">
-              {{ isSubmitting ? submittingText : submitText }}
-            </button>
+            <div class="mt-4 flex w-full justify-end">
+              <UIButton color="yellow" type="submit" :disabled="!canSubmit">
+                {{ isSubmitting ? $t(submittingText) : $t(submitText) }}
+              </UIButton>
+            </div>
           </slot>
         </template>
       </form.Subscribe>

@@ -1,0 +1,43 @@
+meta {
+  name: projects create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/projects
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "projectYear": 2026,
+    "images": [
+      {
+        "uploadId": "{{uploadId}}",
+        "sortOrder": 1,
+        "alts": {
+          "fr_FR": { "alt": "Image couverture FR" },
+          "en_US": { "alt": "Cover image EN" }
+        }
+      }
+    ],
+    "translations": {
+      "fr_FR": {
+        "slug": "projet-exemple",
+        "name": "Projet Exemple",
+        "description": "Description FR"
+      },
+      "en_US": {
+        "slug": "sample-project",
+        "name": "Sample Project",
+        "description": "EN description"
+      }
+    }
+  }
+}

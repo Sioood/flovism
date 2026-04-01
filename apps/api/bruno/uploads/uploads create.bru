@@ -1,0 +1,16 @@
+meta {
+  name: uploads create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/uploads
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  folder: projects
+  file: @file(/absolute/path/to/file.png)
+}

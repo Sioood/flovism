@@ -1,0 +1,37 @@
+meta {
+  name: projects update
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/projects/{{projectId}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "images": [
+      {
+        "uploadId": "{{uploadId2}}",
+        "sortOrder": 1,
+        "alts": {
+          "fr_FR": { "alt": "Image FR mise a jour" },
+          "en_US": { "alt": "EN image updated" }
+        }
+      }
+    ],
+    "translations": {
+      "fr_FR": {
+        "slug": "projet-exemple",
+        "name": "Projet Exemple (maj)",
+        "description": "Description FR mise a jour"
+      }
+    }
+  }
+}

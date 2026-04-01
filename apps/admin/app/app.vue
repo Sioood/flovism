@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    {{ $t('hellWorld') }}
     <NuxtPage />
+    <UIToaster />
   </NuxtLayout>
 </template>

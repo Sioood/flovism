@@ -1,0 +1,15 @@
+meta {
+  name: account profile
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/v1/account/profile
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}

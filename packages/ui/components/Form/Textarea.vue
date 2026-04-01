@@ -57,7 +57,7 @@ const emit = defineEmits<{
 <template>
   <fieldset class="flex w-full flex-col">
     <label v-if="label" :class="labelElement({ size })">
-      {{ label }}
+      {{ $t(label) }}
       <span v-if="required">*</span>
     </label>
     <textarea

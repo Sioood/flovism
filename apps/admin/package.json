@@ -14,10 +14,13 @@
     "i18n:coverage": "node node_modules/@flovism/ui/node_modules/@flovism/nuxt-essentials/i18n/utils/coverage.ts -f ./i18n/locales"
   },
   "dependencies": {
+    "@flovism/api": "workspace:^",
     "@flovism/ui": "workspace:^",
     "nuxt": "catalog:",
     "vue": "catalog:",
-    "vue-router": "^5.0.3"
+    "vue-router": "^5.0.3",
+    "@tuyau/core": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@flovism/eslint": "workspace:^",

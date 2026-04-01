@@ -78,10 +78,10 @@ const items = computed(() => [{ title: 'Home', icon: 'lucide:home', path: '/' },
       class="my-0.5 flex cursor-pointer items-center rounded px-2 py-1 outline-none hover:bg-gray-400 focus:ring-2 focus:ring-gray-300 data-selected:bg-gray-300"
     >
       <template v-if="item.hasChildren">
-        <Icon v-if="!isExpanded" name="lucide:folder" class="h-4 w-4" />
-        <Icon v-else name="lucide:folder-open" class="h-4 w-4" />
+        <Icon v-if="!isExpanded" mode="svg" name="lucide:folder" class="h-4 w-4" />
+        <Icon v-else mode="svg" name="lucide:folder-open" class="h-4 w-4" />
       </template>
-      <Icon v-else :name="item.value.icon || 'lucide:file'" class="h-4 w-4" />
+      <Icon v-else mode="svg" :name="item.value.icon || 'lucide:file'" class="h-4 w-4" />
       <div class="pl-2">
         {{ item.value.title }}
       </div>

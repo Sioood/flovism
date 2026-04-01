@@ -26,7 +26,8 @@
     "class-variance-authority": "^0.7.1",
     "reka-ui": "^2.9.0",
     "tailwindcss": "^4.2.1",
-    "zod": "^4.1.11"
+    "zod": "^4.1.11",
+    "@ark-ui/vue": "catalog:"
   },
   "devDependencies": {
     "@flovism/eslint": "workspace:^",

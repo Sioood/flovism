@@ -205,7 +205,7 @@ const selectedLabel = computed(() => {
   <fieldset class="flex w-full flex-col">
     <label v-if="$slots.label || label" :class="labelElement({ size })">
       <slot name="label">
-        {{ label }}
+        {{ $t(label) }}
       </slot>
       <span v-if="required">*</span>
     </label>

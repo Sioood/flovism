@@ -1,0 +1,15 @@
+meta {
+  name: fonts list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/fonts?lang={{lang}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  lang: {{lang}}
+}

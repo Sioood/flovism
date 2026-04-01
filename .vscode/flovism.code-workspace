@@ -9,6 +9,10 @@
       "path": "../apps/web",
     },
     {
+      "name": "api",
+      "path": "../apps/api",
+    },
+    {
       "name": "admin",
       "path": "../apps/admin",
     },
@@ -37,7 +41,7 @@
       "apps/": true,
       "packages/": true,
     },
-    "conventionalCommits.scopes": ["global", "config", "docs", "nuxt-essentials", "ui", "web", "admin"],
+    "conventionalCommits.scopes": ["global", "config", "docs", "nuxt-essentials", "ui", "web", "admin", "api"],
     "editor.formatOnSave": true,
     "editor.formatOnSaveMode": "file",
     "cSpell.words": ["flovism", "oxlint", "Nuxt"],

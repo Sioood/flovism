@@ -2,10 +2,11 @@
 import { createResolver } from '@nuxt/kit'
 import tailwindcss from '@tailwindcss/vite'
 const { resolve } = createResolver(import.meta.url)
+const isKnipRun = process.env.KNIP === '1'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  extends: [['@flovism/nuxt-essentials', { install: true }]],
+  extends: isKnipRun ? ['@flovism/nuxt-essentials'] : [['@flovism/nuxt-essentials', { install: true }]],
   css: [resolve('./assets/css/main.css')],
   vite: {
     plugins: [tailwindcss()],
@@ -22,7 +23,8 @@ export default defineNuxtConfig({
     customCollections: [
       {
         prefix: 'custom',
-        dir: './assets/icons',
+        // Absolute path so apps that `extends` this layer still load icons from the package.
+        dir: resolve('./assets/icons'),
       },
     ],
   },

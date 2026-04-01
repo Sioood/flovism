@@ -1,0 +1,35 @@
+meta {
+  name: fonts update
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/fonts/{{fontId}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "previewColor": "#222222",
+    "styleFormatFiles": [
+      {
+        "styleId": "{{fontStyleId}}",
+        "formatId": "{{fontFormatId}}",
+        "uploadId": "{{uploadId2}}"
+      }
+    ],
+    "translations": {
+      "fr_FR": {
+        "slug": "typo-exemple",
+        "name": "Typo Exemple (maj)",
+        "description": "Description FR mise a jour"
+      }
+    }
+  }
+}
