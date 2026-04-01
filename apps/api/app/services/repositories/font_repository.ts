@@ -3,8 +3,8 @@ import db from '@adonisjs/lucid/services/db'
 import { defaultLanguageCode } from '../../constants/i18n.js'
 
 export default class FontRepository {
-  async list(languageCode: string) {
-    return db
+  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
+    const query = db
       .from('fonts')
       .leftJoin('font_translations as tr', (join) => {
         join.on('fonts.id', '=', 'tr.font_id').andOnVal('tr.language_code', '=', languageCode)
@@ -19,10 +19,16 @@ export default class FontRepository {
         db.raw('COALESCE(tr.description, tr_fr.description) as description'),
       ])
       .orderBy('fonts.created_at', 'desc')
+
+    if (options?.publishedOnly) {
+      query.where('fonts.status_code', 'published')
+    }
+
+    return query
   }
 
-  async byId(id: string, languageCode: string) {
-    return db
+  async byId(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
+    const query = db
       .from('fonts')
       .leftJoin('font_translations as tr', (join) => {
         join.on('fonts.id', '=', 'tr.font_id').andOnVal('tr.language_code', '=', languageCode)
@@ -37,6 +43,11 @@ export default class FontRepository {
         db.raw('COALESCE(tr.description, tr_fr.description) as description'),
       ])
       .where('fonts.id', id)
-      .first()
+
+    if (options?.publishedOnly) {
+      query.where('fonts.status_code', 'published')
+    }
+
+    return query.first()
   }
 }

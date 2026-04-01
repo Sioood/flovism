@@ -18,13 +18,13 @@ export default class FontService {
     private readonly uploadService = new UploadService(),
   ) {}
 
-  async list(languageCode: string) {
-    const fonts = await this.repository.list(languageCode)
+  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
+    const fonts = await this.repository.list(languageCode, options)
     return Promise.all(fonts.map((font) => this.withFileUrls(font)))
   }
 
-  async show(id: string, languageCode: string) {
-    const font = await this.repository.byId(id, languageCode)
+  async show(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
+    const font = await this.repository.byId(id, languageCode, options)
     if (!font) return null
     return this.withFileUrls(font)
   }

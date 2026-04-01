@@ -3,8 +3,8 @@ import db from '@adonisjs/lucid/services/db'
 import { defaultLanguageCode } from '../../constants/i18n.js'
 
 export default class ProjectRepository {
-  async list(languageCode: string) {
-    return db
+  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
+    const query = db
       .from('projects')
       .leftJoin('project_translations as tr', (join) => {
         join.on('projects.id', '=', 'tr.project_id').andOnVal('tr.language_code', '=', languageCode)
@@ -19,10 +19,16 @@ export default class ProjectRepository {
         db.raw('COALESCE(tr.description, tr_fr.description) as description'),
       ])
       .orderBy('projects.created_at', 'desc')
+
+    if (options?.publishedOnly) {
+      query.where('projects.status_code', 'published')
+    }
+
+    return query
   }
 
-  async byId(id: string, languageCode: string) {
-    return db
+  async byId(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
+    const query = db
       .from('projects')
       .leftJoin('project_translations as tr', (join) => {
         join.on('projects.id', '=', 'tr.project_id').andOnVal('tr.language_code', '=', languageCode)
@@ -37,6 +43,11 @@ export default class ProjectRepository {
         db.raw('COALESCE(tr.description, tr_fr.description) as description'),
       ])
       .where('projects.id', id)
-      .first()
+
+    if (options?.publishedOnly) {
+      query.where('projects.status_code', 'published')
+    }
+
+    return query.first()
   }
 }

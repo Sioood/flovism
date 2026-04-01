@@ -1,40 +1,59 @@
+import { roleIds } from '#constants/authorization'
+import ProjectPolicy from '#policies/project_policy'
+import AuthorizationResponseService from '#services/authorization_response_service'
 import ProjectService from '#services/project_service'
 import { createProjectValidator, projectStatusValidator, updateProjectValidator } from '#validators/project'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ProjectsController {
-  constructor(private readonly projectService = new ProjectService()) {}
+  constructor(
+    private readonly projectService = new ProjectService(),
+    private readonly authorizationResponse = new AuthorizationResponseService(),
+  ) {}
 
-  async index({ request }: HttpContext) {
+  async index({ request, auth, bouncer }: HttpContext) {
+    await bouncer.with(ProjectPolicy).authorize('viewList')
     const lang = String(request.qs().lang || 'fr_FR')
-    return this.projectService.list(lang)
+    const isAdmin = auth.user?.roleId === roleIds.admin
+    return this.projectService.list(lang, { publishedOnly: !isAdmin })
   }
 
-  async show({ params, request, response }: HttpContext) {
+  async show(ctx: HttpContext) {
+    const { params, request, auth, bouncer, response } = ctx
     const lang = String(request.qs().lang || 'fr_FR')
-    const project = await this.projectService.show(params.id, lang)
+    const isAdmin = auth.user?.roleId === roleIds.admin
+    const project = await this.projectService.show(params.id, lang, { publishedOnly: !isAdmin })
     if (!project) return response.notFound({ message: 'Project not found' })
+    const statusCode = String((project as Record<string, unknown>).statusCode || '')
+    const isAllowed = await bouncer.with(ProjectPolicy).allows('view', { statusCode })
+    if (!isAllowed) {
+      return this.authorizationResponse.denyRead(ctx, 'Project')
+    }
     return project
   }
 
-  async store({ request, response }: HttpContext) {
+  async store({ request, response, bouncer }: HttpContext) {
+    await bouncer.with(ProjectPolicy).authorize('create')
     const payload = await request.validateUsing(createProjectValidator)
     const created = await this.projectService.create(payload as never)
     return response.created(created)
   }
 
-  async update({ params, request }: HttpContext) {
+  async update({ params, request, bouncer }: HttpContext) {
+    await bouncer.with(ProjectPolicy).authorize('update')
     const payload = await request.validateUsing(updateProjectValidator)
     return this.projectService.update(params.id, payload as never)
   }
 
-  async destroy({ params, response }: HttpContext) {
+  async destroy({ params, response, bouncer }: HttpContext) {
+    await bouncer.with(ProjectPolicy).authorize('delete')
     await this.projectService.destroy(params.id)
     return response.ok({ success: true })
   }
 
-  async status({ params, request }: HttpContext) {
+  async status({ params, request, bouncer }: HttpContext) {
+    await bouncer.with(ProjectPolicy).authorize('status')
     const payload = await request.validateUsing(projectStatusValidator)
     return this.projectService.transitionStatus(params.id, payload.statusCode, payload.scheduledAt)
   }

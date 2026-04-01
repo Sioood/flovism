@@ -38,4 +38,9 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   // Drive
   DRIVE_DISK: Env.schema.enum(['fs'] as const),
+
+  // Authorization
+  AUTHZ_ALLOW_AUTO_FIRST_ADMIN: Env.schema.boolean.optional(),
+  AUTHZ_API_RESPONSE_OBFUSCATION_ENABLED: Env.schema.boolean.optional(),
+  AUTHZ_API_RESPONSE_DISCLOSURE_DOMAINS: Env.schema.string.optional(),
 })
