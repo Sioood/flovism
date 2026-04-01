@@ -1,0 +1,59 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "tags": ["-lintignore"],
+  "ignoreBinaries": ["prettier", "only-allow", "taze"],
+  "ignoreUnresolved": ["#generated/controllers"],
+  "ignoreFiles": [
+    "packages/ui/.playground/app.config.ts",
+    "packages/nuxt-essentials/.playground/app.config.ts",
+    "packages/nuxt-essentials/.playground/nuxt.config.ts",
+    "packages/ui/i18n/locales/**",
+    "apps/web/i18n/locales/**",
+    "apps/admin/i18n/locales/**",
+    ".changeset/changeset-conventional-commits.js"
+  ],
+  "workspaces": {
+    ".": {},
+    "apps/api": {
+      "entry": ["start/routes.ts", "app/controllers/**/*.ts", "app/services/**/*.ts", "bin/test.ts", "tests/bootstrap.ts"],
+      "project": ["app/**/*.ts", "start/**/*.ts", "bin/**/*.ts"],
+      "paths": {
+        "#controllers/*": ["app/controllers/*"],
+        "#exceptions/*": ["app/exceptions/*"],
+        "#models/*": ["app/models/*"],
+        "#mails/*": ["app/mails/*"],
+        "#services/*": ["app/services/*"],
+        "#listeners/*": ["app/listeners/*"],
+        "#events/*": ["app/events/*"],
+        "#generated/*": [".adonisjs/server/*"],
+        "#middleware/*": ["app/middleware/*"],
+        "#transformers/*": ["app/transformers/*"],
+        "#validators/*": ["app/validators/*"],
+        "#providers/*": ["providers/*"],
+        "#policies/*": ["app/policies/*"],
+        "#abilities/*": ["app/abilities/*"],
+        "#database/*": ["database/*"],
+        "#tests/*": ["tests/*"],
+        "#start/*": ["start/*"],
+        "#config/*": ["config/*"],
+        "#utils/*": ["utils/*"]
+      }
+    },
+    "packages/ui": {
+      "entry": ["components/**/*.vue"],
+      "project": ["components/**/*.vue", ".playground/**/*.vue", ".playground/**/*.ts", "i18n/**/*.ts"],
+      "nuxt": {
+        "config": ["nuxt.config.ts", ".playground/nuxt.config.ts"],
+        "entry": [".playground/app/app.vue", ".playground/app/pages/**/*.vue", ".playground/app/components/**/*.vue", "components/**/*.vue"]
+      }
+    },
+    "packages/nuxt-essentials": {
+      "entry": [],
+      "project": ["composables/**/*.ts", "i18n/**/*.ts", "**/*.ts"],
+      "nuxt": {
+        "config": ["nuxt.config.ts"],
+        "entry": ["modules/**/*.{ts,vue}", "composables/**/*.ts", "i18n/**/*.ts"]
+      }
+    }
+  }
+}
