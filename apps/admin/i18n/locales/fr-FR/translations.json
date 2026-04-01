@@ -1,5 +1,11 @@
 {
   "login": "Se connecter",
   "email": "Email",
-  "password": "Mot de passe"
+  "password": "Mot de passe",
+  "loginFailed": "Authentification échouée",
+  "loginSuccess": "Authentification réussie",
+  "signupFailed": "Inscription échouée",
+  "signupSuccess": "Inscription réussie",
+  "logoutFailed": "Déconnexion échouée",
+  "logoutSuccess": "Déconnexion réussie"
 }

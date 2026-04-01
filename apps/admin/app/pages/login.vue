@@ -42,7 +42,6 @@ definePageMeta({
   middleware: [
     (_to, from) => {
       const { user } = extractStore(useUserStore())
-      // TODO add toast "already logged in"
       if (user.value) return from.path && from.path !== '/login' ? navigateTo(from.path) : navigateTo('/')
     },
   ],
