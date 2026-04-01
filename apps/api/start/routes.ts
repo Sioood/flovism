@@ -20,20 +20,26 @@ router
   .group(() => {
     router
       .group(() => {
-        router.post('signup', [controllers.NewAccount, 'store'])
-        router.post('login', [controllers.AccessToken, 'store'])
-        router.post('logout', [controllers.AccessToken, 'destroy']).use(middleware.auth())
+        router.post('signup', [() => import('#controllers/web_auth_controller'), 'signup'])
+        router.post('login', [() => import('#controllers/web_auth_controller'), 'login'])
+        router.post('logout', [() => import('#controllers/web_auth_controller'), 'logout']).use(middleware.auth({ guards: ['web'] }))
       })
-      .prefix('auth')
-      .as('auth')
+      .prefix('auth/web')
+
+    router
+      .group(() => {
+        router.post('signup', [() => import('#controllers/api_auth_controller'), 'signup'])
+        router.post('login', [() => import('#controllers/api_auth_controller'), 'login'])
+        router.post('logout', [() => import('#controllers/api_auth_controller'), 'logout']).use(middleware.auth({ guards: ['api'] }))
+      })
+      .prefix('auth/api')
 
     router
       .group(() => {
         router.get('/profile', [controllers.Profile, 'show'])
       })
       .prefix('account')
-      .as('profile')
-      .use(middleware.auth())
+      .use(middleware.auth({ guards: ['web', 'api'] }))
 
     router
       .group(() => {
@@ -45,7 +51,7 @@ router
         router.patch('/:id/status', [controllers.Projects, 'status'])
       })
       .prefix('projects')
-      .use(middleware.auth())
+      .use(middleware.auth({ guards: ['web', 'api'] }))
 
     router
       .group(() => {
@@ -57,7 +63,7 @@ router
         router.patch('/:id/status', [controllers.Fonts, 'status'])
       })
       .prefix('fonts')
-      .use(middleware.auth())
+      .use(middleware.auth({ guards: ['web', 'api'] }))
 
     router
       .group(() => {
@@ -67,6 +73,6 @@ router
         router.delete('/:id', [controllers.Uploads, 'destroy'])
       })
       .prefix('uploads')
-      .use(middleware.auth())
+      .use(middleware.auth({ guards: ['web', 'api'] }))
   })
   .prefix('/api/v1')
