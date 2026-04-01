@@ -39,6 +39,7 @@ const handleSubmit = async (values: typeof defaultValues) => {
 }
 
 definePageMeta({
+  layout: false,
   middleware: [
     (_to, from) => {
       const { user } = extractStore(useUserStore())
