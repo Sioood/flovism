@@ -7,6 +7,7 @@ catalog:
   '@nuxt/eslint': ^1.15.2
   '@nuxt/kit': ^4.3.1
   '@nuxtjs/i18n': ^10.2.3
+  '@tuyau/core': ^1.2.2
   eslint: ^10.1.0
   nanoid: ^5.1.7
   nanoid-dictionary: ^5.0.0
@@ -15,5 +16,6 @@ catalog:
   prettier: ^3.8.1
   typescript: ^5.9.3
   vue: ^3.5.29
+  zod: ^4.3.6
 
 minimumReleaseAge: 1440 # 24 hours

@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "@flovism/api",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -71,7 +71,7 @@
     "@adonisjs/shield": "^9.0.0",
     "@japa/api-client": "^3.2.1",
     "@jrmc/adonis-attachment": "^5.1.2",
-    "@tuyau/core": "^1.2.2",
+    "@tuyau/core": "catalog:",
     "@vinejs/vine": "^4.3.0",
     "better-sqlite3": "^12.8.0",
     "luxon": "^3.7.2",
