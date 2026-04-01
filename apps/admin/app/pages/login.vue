@@ -50,7 +50,8 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="flex h-dvh w-full items-center justify-center">
+  <div class="flex h-dvh w-full flex-col items-center justify-center">
+    <Icon mode="svg" name="custom:logo" class="size-[35vh]" />
     <div class="w-full max-w-sm p-4">
       <UIForm :schema="schema" :default-values="defaultValues" :fields="fields" submit-text="login" @submit="handleSubmit" />
     </div>
