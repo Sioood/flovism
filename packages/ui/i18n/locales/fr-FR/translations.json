@@ -1,5 +1,6 @@
 {
   "itemSelected_other": "{itemsCount} éléments sélectionnés",
   "addFile": "Ajouter un fichier",
-  "fileUpload_placeholder": "Cliquez ici / déposer le fichier ici"
+  "fileUpload_placeholder": "Cliquez ici / déposer le fichier ici",
+  "submit": "Envoyer"
 }

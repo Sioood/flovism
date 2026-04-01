@@ -97,7 +97,7 @@ function handleChange(event: Event) {
         class="appearance-none"
         @change="handleChange"
       />
-      <span v-if="label" class="select-none">{{ label }}</span>
+      <span v-if="label" class="select-none">{{ $t(label) }}</span>
       <span v-if="required">*</span>
     </label>
     <template v-if="Array.isArray(error) ? error.length > 0 : !!error">

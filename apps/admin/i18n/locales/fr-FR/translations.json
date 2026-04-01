@@ -1,3 +1,5 @@
 {
-  "hellWorld": "Monde infernal (WEB - Earlier layer: take priority)"
+  "login": "Se connecter",
+  "email": "Email",
+  "password": "Mot de passe"
 }

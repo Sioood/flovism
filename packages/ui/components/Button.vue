@@ -52,7 +52,7 @@ withDefaults(
   {
     intent: 'primary',
     size: 'md',
-    color: 'red',
+    color: 'yellow',
     disabled: false,
     iconName: undefined,
   },

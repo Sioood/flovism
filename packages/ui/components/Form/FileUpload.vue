@@ -319,7 +319,7 @@ const { isOverDropZone } = useDropZone(dropZoneRef, {
 <template>
   <fieldset :class="fileUploadRoot()">
     <label v-if="label" :class="labelElement({ size })">
-      {{ label }}
+      {{ $t(label) }}
       <span v-if="required">*</span>
     </label>
 
