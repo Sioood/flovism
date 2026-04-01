@@ -20,13 +20,13 @@ export default class ProjectService {
     private readonly uploadService = new UploadService(),
   ) {}
 
-  async list(languageCode: string) {
-    const projects = await this.repository.list(languageCode)
+  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
+    const projects = await this.repository.list(languageCode, options)
     return Promise.all(projects.map((project) => this.withImages(project, languageCode)))
   }
 
-  async show(id: string, languageCode: string) {
-    const project = await this.repository.byId(id, languageCode)
+  async show(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
+    const project = await this.repository.byId(id, languageCode, options)
     if (!project) return null
     return this.withImages(project, languageCode)
   }

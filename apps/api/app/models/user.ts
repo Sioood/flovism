@@ -2,10 +2,13 @@ import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { compose } from '@adonisjs/core/helpers'
 import hash from '@adonisjs/core/services/hash'
-import { beforeCreate } from '@adonisjs/lucid/orm'
+import { beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
 
 import { UserSchema } from '#database/schema'
+import Role from '#models/role'
 import { newId } from '#utils/custom_id'
+
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   static selfAssignPrimaryKey = true
@@ -18,6 +21,12 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
       user.id = newId('user')
     }
   }
+
+  @column()
+  declare roleId: string
+
+  @belongsTo(() => Role, { foreignKey: 'roleId' })
+  declare role: BelongsTo<typeof Role>
 
   get initials() {
     const [first, last] = this.fullName ? this.fullName.split(' ') : this.email.split('@')

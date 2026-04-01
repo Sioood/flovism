@@ -6,6 +6,7 @@ export const nanoid = customAlphabet(nolookalikesSafe, nanoidLength)
 
 export const ids = {
   user: 'user',
+  role: 'role',
   language: 'lang',
   upload: 'upl',
   project: 'project',

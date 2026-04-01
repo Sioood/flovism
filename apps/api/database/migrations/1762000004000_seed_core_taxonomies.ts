@@ -19,9 +19,10 @@ export default class extends BaseSchema {
   }
 
   async down() {
-    this.defer(async (db) => {
-      await db.from('content_statuses').whereIn('code', ['draft', 'in_review', 'scheduled', 'published', 'archived']).delete()
-      await db.from('languages').whereIn('code', ['fr_FR', 'en_US']).delete()
-    })
+    /**
+     * Intentionally no-op.
+     * These seeded rows are referenced by domain tables (projects/fonts/translations)
+     * and are safely removed when base tables are dropped by older migrations.
+     */
   }
 }
