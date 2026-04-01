@@ -2,6 +2,8 @@
 import { Toast, Toaster } from '@ark-ui/vue/toast'
 import { cva, type VariantProps } from 'class-variance-authority'
 
+const { t } = useI18n()
+
 const toaster = useToast()
 
 const toastRoot = cva(
@@ -85,9 +87,11 @@ const iconMap = {
         <Toast.Root :class="toastRoot({ color: colorTypes[toast.type as keyof typeof colorTypes], size, intent })">
           <Toast.Title :class="toastTitle({ size })">
             <Icon mode="svg" :name="iconMap[toast.type as keyof typeof iconMap]" class="size-3!" :class="{ 'animate-spin': toast.type === 'loading' }" />
-            {{ toast.title }}
+            {{ typeof toast.title === 'string' ? t(toast.title) : toast.title }}
           </Toast.Title>
-          <Toast.Description :class="toastDescription({ size })">{{ toast.description }}</Toast.Description>
+          <Toast.Description :class="toastDescription({ size })">{{
+            typeof toast.description === 'string' ? t(toast.description) : toast.description
+          }}</Toast.Description>
           <Toast.CloseTrigger v-if="toast.closable" :class="toastCloseTrigger({ size })">
             <UIButton size="xs" :color="toast.type !== 'error' ? 'red' : 'gray'" intent="primary">
               <Icon mode="svg" name="custom:cross" />
