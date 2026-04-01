@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ark-ui": {
+      "command": "npx",
+      "args": ["-y", "@ark-ui/mcp"]
+    },
+    "nuxt": {
+      "type": "http",
+      "url": "https://nuxt.com/mcp",
+      "headers": {}
+    }
+  }
+}
