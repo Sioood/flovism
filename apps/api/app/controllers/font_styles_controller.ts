@@ -3,7 +3,9 @@ import FontPolicy from '#policies/font_policy'
 import AuthorizationResponseService from '#services/authorization_response_service'
 import FontService from '#services/font_service'
 import FontStyleTransformer from '#transformers/font_style_transformer'
+import { resolveListingPagination } from '#utils/listing_pagination'
 import { createFontStyleValidator, updateFontStyleValidator } from '#validators/font_style'
+import { listingIndexQueryValidator } from '#validators/pagination'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -14,15 +16,17 @@ export default class FontStylesController {
   ) {}
 
   async index(ctx: HttpContext) {
-    const { params, bouncer, response, serialize } = ctx
+    const { params, request, auth, bouncer, response, serialize } = ctx
     const font = await Font.find(params.fontId)
     if (!font) return response.notFound({ message: 'Font not found' })
     const isAllowed = await bouncer.with(FontPolicy).allows('view', font)
     if (!isAllowed) {
       return this.authorizationResponse.denyRead(ctx, 'Font')
     }
-    const rows = await this.fontService.listStyles(font.id)
-    return serialize(FontStyleTransformer.transform(rows))
+    const qs = await request.validateUsing(listingIndexQueryValidator)
+    const { page, limit } = resolveListingPagination(qs, auth.user?.roleId)
+    const paginated = await this.fontService.listStylesPaginated(font.id, page, limit)
+    return serialize(FontStyleTransformer.paginate(paginated.all(), paginated.getMeta()))
   }
 
   async store({ params, request, response, bouncer, serialize }: HttpContext) {

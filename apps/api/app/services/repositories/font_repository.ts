@@ -2,8 +2,10 @@ import db from '@adonisjs/lucid/services/db'
 
 import { defaultLanguageCode } from '../../constants/i18n.js'
 
+import type { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
+
 export default class FontRepository {
-  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
+  buildListQuery(languageCode: string, options?: { publishedOnly?: boolean }) {
     const query = db
       .from('fonts')
       .leftJoin('font_translations as tr', (join) => {
@@ -25,6 +27,15 @@ export default class FontRepository {
     }
 
     return query
+  }
+
+  listPaginated(
+    languageCode: string,
+    options: { publishedOnly?: boolean } | undefined,
+    page: number,
+    perPage: number,
+  ): Promise<SimplePaginatorContract<Record<string, unknown>>> {
+    return this.buildListQuery(languageCode, options).paginate(page, perPage)
   }
 
   async byId(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {

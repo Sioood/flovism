@@ -1,17 +1,21 @@
 import FontPolicy from '#policies/font_policy'
 import FontFormatService from '#services/font_format_service'
 import FontFormatTransformer from '#transformers/font_format_transformer'
+import { resolveListingPagination } from '#utils/listing_pagination'
 import { createFontFormatValidator, updateFontFormatValidator } from '#validators/font_format'
+import { listingIndexQueryValidator } from '#validators/pagination'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class FontFormatsController {
   constructor(private readonly fontFormatService = new FontFormatService()) {}
 
-  async index({ bouncer, serialize }: HttpContext) {
+  async index({ request, auth, bouncer, serialize }: HttpContext) {
     await bouncer.with(FontPolicy).authorize('viewList')
-    const rows = await this.fontFormatService.list()
-    return serialize(FontFormatTransformer.transform(rows))
+    const qs = await request.validateUsing(listingIndexQueryValidator)
+    const { page, limit } = resolveListingPagination(qs, auth.user?.roleId)
+    const paginated = await this.fontFormatService.listPaginated(page, limit)
+    return serialize(FontFormatTransformer.paginate(paginated.all(), paginated.getMeta()))
   }
 
   async show({ params, response, bouncer, serialize }: HttpContext) {

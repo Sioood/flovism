@@ -20,9 +20,10 @@ export default class FontService {
     private readonly uploadService = new UploadService(),
   ) {}
 
-  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
-    const fonts = await this.repository.list(languageCode, options)
-    return Promise.all(fonts.map((font) => this.withFileUrls(font)))
+  async listPaginated(languageCode: string, options: { publishedOnly?: boolean } | undefined, page: number, perPage: number) {
+    const paginated = await this.repository.listPaginated(languageCode, options, page, perPage)
+    const hydrated = await Promise.all(paginated.all().map((row) => this.withFileUrls(row as { id: string } & Record<string, unknown>)))
+    return { rows: hydrated, paginator: paginated }
   }
 
   async show(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
@@ -196,8 +197,8 @@ export default class FontService {
     return font
   }
 
-  listStyles(fontId: string) {
-    return FontStyle.query().where('fontId', fontId).orderBy('sortOrder', 'asc')
+  listStylesPaginated(fontId: string, page: number, perPage: number) {
+    return FontStyle.query().where('fontId', fontId).orderBy('sortOrder', 'asc').paginate(page, perPage)
   }
 
   async createStyle(
@@ -255,8 +256,8 @@ export default class FontService {
     return FontStyle.query().where('fontId', fontId).where('id', styleId).first()
   }
 
-  listFamilies(fontId: string) {
-    return FontFamily.query().where('fontId', fontId).preload('translations').orderBy('sortOrder', 'asc')
+  listFamiliesPaginated(fontId: string, page: number, perPage: number) {
+    return FontFamily.query().where('fontId', fontId).preload('translations').orderBy('sortOrder', 'asc').paginate(page, perPage)
   }
 
   async createFamily(

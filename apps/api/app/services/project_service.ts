@@ -20,9 +20,10 @@ export default class ProjectService {
     private readonly uploadService = new UploadService(),
   ) {}
 
-  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
-    const projects = await this.repository.list(languageCode, options)
-    return Promise.all(projects.map((project) => this.withImages(project, languageCode)))
+  async listPaginated(languageCode: string, options: { publishedOnly?: boolean } | undefined, page: number, perPage: number) {
+    const paginated = await this.repository.listPaginated(languageCode, options, page, perPage)
+    const hydrated = await Promise.all(paginated.all().map((row) => this.withImages(row as { id: string } & Record<string, unknown>, languageCode)))
+    return { rows: hydrated, paginator: paginated }
   }
 
   async show(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
