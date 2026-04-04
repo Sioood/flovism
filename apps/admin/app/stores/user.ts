@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import type { Data } from '../../../api/.adonisjs/client/data'
+import type { Data } from '@flovism/api/data'
 
 export const useUserStore = defineStore('user', () => {
   const { $api } = useNuxtApp()
