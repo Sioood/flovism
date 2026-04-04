@@ -5,7 +5,12 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/{{apiVersion}}/uploads
+  url: {{baseUrl}}/api/{{apiVersion}}/uploads?page={{page}}&limit={{limit}}
   body: none
   auth: inherit
+}
+
+params:query {
+  page: {{page}}
+  limit: {{limit}}
 }

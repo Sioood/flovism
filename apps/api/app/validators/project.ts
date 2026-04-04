@@ -1,5 +1,14 @@
 import vine from '@vinejs/vine'
 
+import { paginationQueryFields } from '#validators/pagination'
+
+export const projectsIndexQueryValidator = vine.compile(
+  vine.object({
+    ...paginationQueryFields,
+    lang: vine.string().optional(),
+  }),
+)
+
 export const projectTranslationSchema = vine.object({
   slug: vine.string().trim().minLength(1).maxLength(190),
   name: vine.string().trim().minLength(1).maxLength(190),

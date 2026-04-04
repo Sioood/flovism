@@ -5,11 +5,16 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families?page={{page}}&limit={{limit}}
   body: none
   auth: bearer
 }
 
 auth:bearer {
   token: {{token}}
+}
+
+params:query {
+  page: {{page}}
+  limit: {{limit}}
 }

@@ -4,6 +4,8 @@ import UploadPolicy from '#policies/upload_policy'
 import AuthorizationResponseService from '#services/authorization_response_service'
 import UploadService from '#services/upload_service'
 import UploadTransformer from '#transformers/upload_transformer'
+import { resolveListingPagination } from '#utils/listing_pagination'
+import { listingIndexQueryValidator } from '#validators/pagination'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -13,16 +15,18 @@ export default class UploadsController {
     private readonly authorizationResponse = new AuthorizationResponseService(),
   ) {}
 
-  async index({ auth, bouncer, serialize }: HttpContext) {
+  async index({ request, auth, bouncer, serialize }: HttpContext) {
     await bouncer.with(UploadPolicy).authorize('viewList')
+    const qs = await request.validateUsing(listingIndexQueryValidator)
+    const { page, limit } = resolveListingPagination(qs, auth.user?.roleId)
     const isAdmin = auth.user?.roleId === roleIds.admin
     const query = Upload.query().whereNull('deletedAt').orderBy('createdAt', 'desc')
     if (!isAdmin) {
       query.where('visibility', 'public')
     }
-    const uploads = await query
-    const withUrls = await Promise.all(uploads.map((upload) => this.uploadService.serializeWithUrl(upload)))
-    return serialize(UploadTransformer.transform(withUrls))
+    const paginated = await query.paginate(page, limit)
+    const withUrls = await Promise.all(paginated.all().map((upload) => this.uploadService.serializeWithUrl(upload)))
+    return serialize(UploadTransformer.paginate(withUrls, paginated.getMeta()))
   }
 
   async show(ctx: HttpContext) {

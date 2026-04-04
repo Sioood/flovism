@@ -1,8 +1,8 @@
 import FontFormat from '#models/font_format'
 
 export default class FontFormatService {
-  list() {
-    return FontFormat.query().orderBy('key', 'asc')
+  listPaginated(page: number, perPage: number) {
+    return FontFormat.query().orderBy('key', 'asc').paginate(page, perPage)
   }
 
   find(id: string) {

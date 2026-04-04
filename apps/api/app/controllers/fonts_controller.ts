@@ -3,7 +3,8 @@ import FontPolicy from '#policies/font_policy'
 import AuthorizationResponseService from '#services/authorization_response_service'
 import FontService from '#services/font_service'
 import FontTransformer from '#transformers/font_transformer'
-import { createFontValidator, fontStatusValidator, updateFontValidator } from '#validators/font'
+import { resolveListingPagination } from '#utils/listing_pagination'
+import { createFontValidator, fontStatusValidator, fontsIndexQueryValidator, updateFontValidator } from '#validators/font'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -15,10 +16,12 @@ export default class FontsController {
 
   async index({ request, auth, bouncer, serialize }: HttpContext) {
     await bouncer.with(FontPolicy).authorize('viewList')
-    const lang = String(request.qs().lang || 'fr_FR')
+    const qs = await request.validateUsing(fontsIndexQueryValidator)
+    const lang = qs.lang ?? 'fr_FR'
     const isAdmin = auth.user?.roleId === roleIds.admin
-    const fonts = await this.fontService.list(lang, { publishedOnly: !isAdmin })
-    return serialize(FontTransformer.transform(fonts).useVariant('forList'))
+    const { page, limit } = resolveListingPagination(qs, auth.user?.roleId)
+    const { rows, paginator } = await this.fontService.listPaginated(lang, { publishedOnly: !isAdmin }, page, limit)
+    return serialize(FontTransformer.paginate(rows, paginator.getMeta()).useVariant('forList'))
   }
 
   async show(ctx: HttpContext) {

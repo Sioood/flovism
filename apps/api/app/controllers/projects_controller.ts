@@ -3,7 +3,8 @@ import ProjectPolicy from '#policies/project_policy'
 import AuthorizationResponseService from '#services/authorization_response_service'
 import ProjectService from '#services/project_service'
 import ProjectTransformer from '#transformers/project_transformer'
-import { createProjectValidator, projectStatusValidator, updateProjectValidator } from '#validators/project'
+import { resolveListingPagination } from '#utils/listing_pagination'
+import { createProjectValidator, projectStatusValidator, projectsIndexQueryValidator, updateProjectValidator } from '#validators/project'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -15,10 +16,12 @@ export default class ProjectsController {
 
   async index({ request, auth, bouncer, serialize }: HttpContext) {
     await bouncer.with(ProjectPolicy).authorize('viewList')
-    const lang = String(request.qs().lang || 'fr_FR')
+    const qs = await request.validateUsing(projectsIndexQueryValidator)
+    const lang = qs.lang ?? 'fr_FR'
     const isAdmin = auth.user?.roleId === roleIds.admin
-    const projects = await this.projectService.list(lang, { publishedOnly: !isAdmin })
-    return serialize(ProjectTransformer.transform(projects).useVariant('forList'))
+    const { page, limit } = resolveListingPagination(qs, auth.user?.roleId)
+    const { rows, paginator } = await this.projectService.listPaginated(lang, { publishedOnly: !isAdmin }, page, limit)
+    return serialize(ProjectTransformer.paginate(rows, paginator.getMeta()).useVariant('forList'))
   }
 
   async show(ctx: HttpContext) {
