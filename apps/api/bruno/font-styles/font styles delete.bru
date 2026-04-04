@@ -1,0 +1,11 @@
+meta {
+  name: font styles delete
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/styles/{{fontStyleId}}
+  body: none
+  auth: inherit
+}

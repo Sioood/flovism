@@ -5,7 +5,7 @@ meta {
 }
 
 patch {
-  url: {{baseUrl}}/api/v1/fonts/{{fontId}}/status
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/status
   body: json
   auth: inherit
 }

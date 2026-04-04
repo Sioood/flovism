@@ -1,15 +1,16 @@
-import { BaseModel, beforeCreate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { beforeCreate, beforeUpdate, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 
+import { FontSchema } from '#database/schema'
 import FontFamily from '#models/font_family'
 import FontFilter from '#models/font_filter'
 import FontStyle from '#models/font_style'
 import FontTranslation from '#models/font_translation'
 import { newId } from '#utils/custom_id'
+import { applyAuditBeforeCreate, applyAuditBeforeUpdate } from '#utils/model_audit'
 
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 
-export default class Font extends BaseModel {
+export default class Font extends FontSchema {
   static selfAssignPrimaryKey = true
 
   @beforeCreate()
@@ -17,35 +18,15 @@ export default class Font extends BaseModel {
     model.id = model.id || newId('font')
   }
 
-  @column({ isPrimary: true })
-  declare id: string
+  @beforeCreate()
+  static assignAuditOnCreate(model: Font) {
+    applyAuditBeforeCreate(model)
+  }
 
-  @column()
-  declare year: number
-
-  @column()
-  declare statusCode: string
-
-  @column()
-  declare version: string
-
-  @column()
-  declare previewColor: string
-
-  @column()
-  declare isVariableGlobal: boolean
-
-  @column.dateTime()
-  declare scheduledAt: DateTime | null
-
-  @column.dateTime()
-  declare publishedAt: DateTime | null
-
-  @column()
-  declare createdBy: string | null
-
-  @column()
-  declare updatedBy: string | null
+  @beforeUpdate()
+  static assignAuditOnUpdate(model: Font) {
+    applyAuditBeforeUpdate(model)
+  }
 
   @hasMany(() => FontTranslation)
   declare translations: HasMany<typeof FontTranslation>
@@ -58,10 +39,4 @@ export default class Font extends BaseModel {
 
   @manyToMany(() => FontFilter, { pivotTable: 'font_filter_font' })
   declare filters: ManyToMany<typeof FontFilter>
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
 }

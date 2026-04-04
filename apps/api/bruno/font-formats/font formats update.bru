@@ -1,0 +1,21 @@
+meta {
+  name: font formats update
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/{{apiVersion}}/font-formats/{{fontFormatId}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "key": "woff2"
+  }
+}

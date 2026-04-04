@@ -1,0 +1,11 @@
+meta {
+  name: font styles show
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/styles/{{fontStyleId}}
+  body: none
+  auth: inherit
+}

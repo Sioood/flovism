@@ -1,6 +1,8 @@
 import db from '@adonisjs/lucid/services/db'
 
 import Font from '#models/font'
+import FontFamily from '#models/font_family'
+import FontMetric from '#models/font_metric'
 import FontStyle from '#models/font_style'
 import PublicationService from '#services/publication_service'
 import FontRepository from '#services/repositories/font_repository'
@@ -194,7 +196,163 @@ export default class FontService {
     return font
   }
 
-  async listStyles(fontId: string) {
-    return FontStyle.query().where('fontId', fontId).orderBy('sortOrder')
+  listStyles(fontId: string) {
+    return FontStyle.query().where('fontId', fontId).orderBy('sortOrder', 'asc')
+  }
+
+  async createStyle(
+    fontId: string,
+    input: {
+      internalName: string
+      familyId?: string
+      sortOrder?: number
+      canTrial?: boolean
+      isVariable?: boolean
+      price?: number | null
+    },
+  ) {
+    await Font.findOrFail(fontId)
+    return FontStyle.create({
+      fontId,
+      internalName: input.internalName,
+      familyId: input.familyId ?? null,
+      sortOrder: input.sortOrder ?? 0,
+      canTrial: input.canTrial ?? false,
+      isVariable: input.isVariable ?? false,
+      price: input.price === null ? null : String(input.price),
+    })
+  }
+
+  async updateStyle(
+    fontId: string,
+    styleId: string,
+    input: {
+      internalName?: string
+      familyId?: string | null
+      sortOrder?: number
+      canTrial?: boolean
+      isVariable?: boolean
+      price?: number | null
+    },
+  ) {
+    const style = await FontStyle.query().where('fontId', fontId).where('id', styleId).firstOrFail()
+    if (input.internalName !== undefined) style.internalName = input.internalName
+    if (input.familyId !== undefined) style.familyId = input.familyId
+    if (input.sortOrder !== undefined) style.sortOrder = input.sortOrder
+    if (input.canTrial !== undefined) style.canTrial = input.canTrial
+    if (input.isVariable !== undefined) style.isVariable = input.isVariable
+    if (input.price !== undefined) style.price = input.price === null ? null : String(input.price)
+    await style.save()
+    return style
+  }
+
+  async destroyStyle(fontId: string, styleId: string) {
+    const style = await FontStyle.query().where('fontId', fontId).where('id', styleId).firstOrFail()
+    await style.delete()
+  }
+
+  findStyle(fontId: string, styleId: string) {
+    return FontStyle.query().where('fontId', fontId).where('id', styleId).first()
+  }
+
+  listFamilies(fontId: string) {
+    return FontFamily.query().where('fontId', fontId).preload('translations').orderBy('sortOrder', 'asc')
+  }
+
+  async createFamily(
+    fontId: string,
+    input: {
+      internalName: string
+      sortOrder?: number
+      canTrial?: boolean
+      price?: number | null
+      translations?: Record<string, { displayName: string }>
+    },
+  ) {
+    await Font.findOrFail(fontId)
+    const family = await FontFamily.create({
+      fontId,
+      internalName: input.internalName,
+      sortOrder: input.sortOrder ?? 0,
+      canTrial: input.canTrial ?? false,
+      price: input.price === null ? null : String(input.price),
+    })
+    if (input.translations && Object.keys(input.translations).length) {
+      await this.translationService.upsertFontFamilyTranslations({ familyId: family.id, translations: input.translations })
+    }
+    await family.load('translations')
+    return family
+  }
+
+  async updateFamily(
+    fontId: string,
+    familyId: string,
+    input: {
+      internalName?: string
+      sortOrder?: number
+      canTrial?: boolean
+      price?: number | null
+      translations?: Record<string, { displayName: string }>
+    },
+  ) {
+    const family = await FontFamily.query().where('fontId', fontId).where('id', familyId).firstOrFail()
+    if (input.internalName !== undefined) family.internalName = input.internalName
+    if (input.sortOrder !== undefined) family.sortOrder = input.sortOrder
+    if (input.canTrial !== undefined) family.canTrial = input.canTrial
+    if (input.price !== undefined) family.price = input.price === null ? null : String(input.price)
+    await family.save()
+    if (input.translations && Object.keys(input.translations).length) {
+      await this.translationService.upsertFontFamilyTranslations({ familyId: family.id, translations: input.translations })
+    }
+    await family.load('translations')
+    return family
+  }
+
+  async destroyFamily(fontId: string, familyId: string) {
+    const family = await FontFamily.query().where('fontId', fontId).where('id', familyId).firstOrFail()
+    await family.delete()
+  }
+
+  findFamily(fontId: string, familyId: string) {
+    return FontFamily.query().where('fontId', fontId).where('id', familyId).preload('translations').first()
+  }
+
+  findMetrics(fontId: string) {
+    return FontMetric.find(fontId)
+  }
+
+  async upsertMetrics(
+    fontId: string,
+    input: Partial<{
+      serifSans: number
+      boringFun: number
+      scriptGeometric: number
+      readableIllegible: number
+      displayText: number
+      styleCountScore: number
+    }>,
+  ) {
+    await Font.findOrFail(fontId)
+    const existing = await FontMetric.find(fontId)
+    const merged = {
+      fontId,
+      serifSans: input.serifSans ?? existing?.serifSans ?? 0,
+      boringFun: input.boringFun ?? existing?.boringFun ?? 0,
+      scriptGeometric: input.scriptGeometric ?? existing?.scriptGeometric ?? 0,
+      readableIllegible: input.readableIllegible ?? existing?.readableIllegible ?? 0,
+      displayText: input.displayText ?? existing?.displayText ?? 0,
+      styleCountScore: input.styleCountScore ?? existing?.styleCountScore ?? 0,
+    }
+    if (existing) {
+      existing.merge(merged)
+      await existing.save()
+      return existing
+    }
+    return FontMetric.create(merged)
+  }
+
+  async destroyMetrics(fontId: string) {
+    const row = await FontMetric.findOrFail(fontId)
+    await row.delete()
   }
 }

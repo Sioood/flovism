@@ -53,4 +53,27 @@ export default class TranslationService {
       }
     }
   }
+
+  async upsertFontFamilyTranslations(params: { familyId: string; translations: Record<string, { displayName: string }>; trx?: TransactionClientContract }) {
+    const queryClient = params.trx || db
+    if (!params.translations[defaultLanguageCode]) {
+      throw new Error(`Missing required translation for ${defaultLanguageCode}`)
+    }
+
+    for (const [languageCode, payload] of Object.entries(params.translations)) {
+      await this.ensureLanguageExists(languageCode)
+      const existing = await queryClient.from('font_family_translations').where('family_id', params.familyId).where('language_code', languageCode).first()
+
+      if (existing) {
+        await queryClient.from('font_family_translations').where('id', existing.id).update({ display_name: payload.displayName })
+      } else {
+        await queryClient.table('font_family_translations').insert({
+          id: newId('fontFamilyTranslation'),
+          family_id: params.familyId,
+          language_code: languageCode,
+          display_name: payload.displayName,
+        })
+      }
+    }
+  }
 }
