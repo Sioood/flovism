@@ -36,13 +36,7 @@ const {
 })
 
 const createSchema = z.object({
-  projectYear: z
-    .string()
-    .trim()
-    .min(1)
-    .regex(/^\d+$/, 'Année invalide')
-    .transform((s) => Number(s))
-    .pipe(z.number().int().min(1900).max(2100)),
+  projectYear: z.number().min(1).int().min(1900).max(2100),
   frSlug: z.string().trim().min(1).max(190),
   frName: z.string().trim().min(1).max(190),
   frDescription: z.string().trim().min(1),
@@ -119,7 +113,7 @@ const onCreateProject = async (value: CreateFormValues) => {
 </script>
 
 <template>
-  <div>
+  <div class="size-full p-8">
     <h1>Projects</h1>
 
     <section class="mb-8 max-w-md rounded border border-neutral-300 p-4 dark:border-neutral-600">
