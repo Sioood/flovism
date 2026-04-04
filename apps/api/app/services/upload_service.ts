@@ -5,6 +5,7 @@ import { DateTime } from 'luxon'
 
 import Upload from '#models/upload'
 
+import type { UploadWithUrl } from '#transformers/upload_transformer'
 import type { MultipartFile } from '@adonisjs/core/bodyparser'
 
 export default class UploadService {
@@ -16,19 +17,19 @@ export default class UploadService {
     return disk.getSignedUrl(params.key, { expiresIn: '30 mins' })
   }
 
-  async serializeWithUrl(upload: Upload) {
+  async serializeWithUrl(upload: Upload): Promise<UploadWithUrl> {
     const url = await this.getUrl({
       disk: upload.disk,
       key: upload.key,
       visibility: upload.visibility,
     })
     return {
-      ...upload.serialize(),
+      ...(upload.serialize() as UploadWithUrl),
       url,
     }
   }
 
-  async createFromFile(params: { file: MultipartFile; userId?: string | null; folder: string; disk?: string }) {
+  async createFromFile(params: { file: MultipartFile; userId?: string | null; folder: string; disk?: string }): Promise<UploadWithUrl> {
     const attachment = await attachmentManager.createFromFile(params.file)
     attachment.setOptions({
       folder: params.folder,
@@ -51,7 +52,7 @@ export default class UploadService {
       metadata: {},
       uploadedBy: params.userId || null,
     })
-    return this.serializeWithUrl(upload)
+    return await this.serializeWithUrl(upload)
   }
 
   async deleteUpload(upload: Upload) {
