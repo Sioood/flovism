@@ -1,4 +1,4 @@
-import { BaseModel, beforeCreate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, beforeUpdate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 import FontFamily from '#models/font_family'
@@ -6,6 +6,7 @@ import FontFilter from '#models/font_filter'
 import FontStyle from '#models/font_style'
 import FontTranslation from '#models/font_translation'
 import { newId } from '#utils/custom_id'
+import { applyAuditBeforeCreate, applyAuditBeforeUpdate } from '#utils/model_audit'
 
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 
@@ -15,6 +16,16 @@ export default class Font extends BaseModel {
   @beforeCreate()
   static assignId(model: Font) {
     model.id = model.id || newId('font')
+  }
+
+  @beforeCreate()
+  static assignAuditOnCreate(model: Font) {
+    applyAuditBeforeCreate(model)
+  }
+
+  @beforeUpdate()
+  static assignAuditOnUpdate(model: Font) {
+    applyAuditBeforeUpdate(model)
   }
 
   @column({ isPrimary: true })

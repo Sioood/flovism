@@ -1,10 +1,11 @@
-import { BaseModel, beforeCreate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, beforeUpdate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 import ProjectCategory from '#models/project_category'
 import ProjectImage from '#models/project_image'
 import ProjectTranslation from '#models/project_translation'
 import { newId } from '#utils/custom_id'
+import { applyAuditBeforeCreate, applyAuditBeforeUpdate } from '#utils/model_audit'
 
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 
@@ -14,6 +15,16 @@ export default class Project extends BaseModel {
   @beforeCreate()
   static assignId(project: Project) {
     project.id = project.id || newId('project')
+  }
+
+  @beforeCreate()
+  static assignAuditOnCreate(project: Project) {
+    applyAuditBeforeCreate(project)
+  }
+
+  @beforeUpdate()
+  static assignAuditOnUpdate(project: Project) {
+    applyAuditBeforeUpdate(project)
   }
 
   @column({ isPrimary: true })
