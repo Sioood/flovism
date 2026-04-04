@@ -63,7 +63,7 @@ const items = computed(() => [{ title: 'Home', icon: 'lucide:home', path: '/' },
 <template>
   <TreeRoot
     v-slot="{ flattenItems }"
-    class="w-56 list-none rounded-lg bg-gray-200 p-2 text-sm font-medium text-gray-600 shadow-sm select-none"
+    class="w-full list-none rounded-lg bg-gray-200 p-2 text-sm font-medium text-gray-600 select-none"
     :items="items"
     :get-key="(item) => item.title"
     :default-expanded="[]"
