@@ -1,0 +1,21 @@
+meta {
+  name: font formats create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/font-formats
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "key": "woff2"
+  }
+}

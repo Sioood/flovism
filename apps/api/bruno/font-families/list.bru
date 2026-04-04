@@ -1,0 +1,15 @@
+meta {
+  name: List font families
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
