@@ -2,7 +2,7 @@ import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { compose } from '@adonisjs/core/helpers'
 import hash from '@adonisjs/core/services/hash'
-import { beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
+import { beforeCreate, belongsTo } from '@adonisjs/lucid/orm'
 
 import { UserSchema } from '#database/schema'
 import Role from '#models/role'
@@ -21,9 +21,6 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
       user.id = newId('user')
     }
   }
-
-  @column()
-  declare roleId: string
 
   @belongsTo(() => Role, { foreignKey: 'roleId' })
   declare role: BelongsTo<typeof Role>

@@ -1,6 +1,6 @@
-import { BaseModel, beforeCreate, beforeUpdate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { beforeCreate, beforeUpdate, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 
+import { ProjectSchema } from '#database/schema'
 import ProjectCategory from '#models/project_category'
 import ProjectImage from '#models/project_image'
 import ProjectTranslation from '#models/project_translation'
@@ -9,7 +9,7 @@ import { applyAuditBeforeCreate, applyAuditBeforeUpdate } from '#utils/model_aud
 
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 
-export default class Project extends BaseModel {
+export default class Project extends ProjectSchema {
   static selfAssignPrimaryKey = true
 
   @beforeCreate()
@@ -27,30 +27,6 @@ export default class Project extends BaseModel {
     applyAuditBeforeUpdate(project)
   }
 
-  @column({ isPrimary: true })
-  declare id: string
-
-  @column()
-  declare projectNumber: string
-
-  @column()
-  declare projectYear: number
-
-  @column()
-  declare statusCode: string
-
-  @column.dateTime()
-  declare scheduledAt: DateTime | null
-
-  @column.dateTime()
-  declare publishedAt: DateTime | null
-
-  @column()
-  declare createdBy: string | null
-
-  @column()
-  declare updatedBy: string | null
-
   @hasMany(() => ProjectTranslation)
   declare translations: HasMany<typeof ProjectTranslation>
 
@@ -59,10 +35,4 @@ export default class Project extends BaseModel {
 
   @manyToMany(() => ProjectCategory, { pivotTable: 'project_category_project' })
   declare categories: ManyToMany<typeof ProjectCategory>
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
 }
