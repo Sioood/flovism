@@ -35,32 +35,34 @@ const buttonPropsSchema: PropDefinition[] = [
       </ComponentListViewer>
 
       <ComponentListViewer title="Join">
-        <ComponentViewerWrapper
+        <ComponentViewer
           :component="UIButton"
-          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :initial-props="{ intent: 'primary', size: 'md', iconName: 'custom:plus' }"
           :props-schema="buttonPropsSchema"
+          :default-preview-background="false"
         >
-          <template #preview>
+          <template #override="{ props }">
             <div class="join join-horizontal">
-              <UIButton class="join-item" color="red"> Left </UIButton>
-              <UIButton class="join-item" color="blue"> Right </UIButton>
+              <UIButton class="join-item" color="red" v-bind="props"> Left </UIButton>
+              <UIButton class="join-item" color="blue" v-bind="props"> Right </UIButton>
             </div>
           </template>
-        </ComponentViewerWrapper>
+        </ComponentViewer>
 
-        <ComponentViewerWrapper
+        <ComponentViewer
           :component="UIButton"
-          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :initial-props="{ intent: 'primary', size: 'md', iconName: 'custom:plus' }"
           :props-schema="buttonPropsSchema"
+          :default-preview-background="false"
         >
-          <template #preview>
+          <template #override="{ props }">
             <div class="join join-horizontal">
-              <UIButton class="join-item" color="red"> First </UIButton>
-              <UIButton class="join-item" color="yellow"> Middle </UIButton>
-              <UIButton class="join-item" color="green"> Last </UIButton>
+              <UIButton class="join-item" color="red" v-bind="props"> First </UIButton>
+              <UIButton class="join-item" color="yellow" v-bind="props"> Middle </UIButton>
+              <UIButton class="join-item" color="green" v-bind="props"> Last </UIButton>
             </div>
           </template>
-        </ComponentViewerWrapper>
+        </ComponentViewer>
       </ComponentListViewer>
     </div>
   </div>

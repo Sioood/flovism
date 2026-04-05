@@ -19,7 +19,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <ToggleGroup.Root :model-value="modelValue" multiple @update:model-value="emit('update:modelValue', $event)">
+  <ToggleGroup.Root :model-value="modelValue" :multiple="multiple" @update:model-value="emit('update:modelValue', $event)">
     <template v-for="option in options" :key="option.value">
       <ToggleGroup.Item :value="option.value" class="cursor-pointer">
         <slot :name="option.value" :option="option" :selected="modelValue?.includes(option.value)" />
