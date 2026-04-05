@@ -7,15 +7,11 @@ meta {
 post {
   url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   content-type: application/json
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

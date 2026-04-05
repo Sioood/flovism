@@ -5,6 +5,7 @@
     "jsx": "react",
     "outDir": "./build",
     "paths": {
+      "#mixins/*": ["./app/mixins/*.js"],
       "#utils/*": ["./utils/*.js"]
     }
   }
