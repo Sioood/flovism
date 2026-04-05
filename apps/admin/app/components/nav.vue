@@ -16,7 +16,7 @@ const navGroup = cva('navGroup flex items-center gap-2 rounded-full', {
 </script>
 
 <template>
-  <div class="fixed top-1 left-1/2 z-9999 flex h-16 -translate-x-1/2 items-center justify-center">
+  <div class="flex h-16 items-center justify-center">
     <div :class="navGroup({ color: 'gray', size: 'md' })">
       <UILink to="/">
         <UIButton size="xs" icon-name="custom:logo" class="[&_svg]:size-5.5!" />

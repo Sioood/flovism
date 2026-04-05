@@ -1,5 +1,6 @@
 {
   "version": "1",
-  "name": "Flovism API",
-  "type": "collection"
+  "name": "flovism-api",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"]
 }

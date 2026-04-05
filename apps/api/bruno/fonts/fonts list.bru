@@ -5,11 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/fonts?lang={{lang}}
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts?lang={{lang}}&page={{page}}&limit={{limit}}
   body: none
   auth: inherit
 }
 
 params:query {
   lang: {{lang}}
+  page: {{page}}
+  limit: {{limit}}
 }

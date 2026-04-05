@@ -1,0 +1,16 @@
+meta {
+  name: font styles list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/styles?page={{page}}&limit={{limit}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: {{page}}
+  limit: {{limit}}
+}

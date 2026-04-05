@@ -1,19 +1,3 @@
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { ContentStatusSchema } from '#database/schema'
 
-export default class ContentStatus extends BaseModel {
-  @column({ isPrimary: true })
-  declare code: string
-
-  @column()
-  declare label: string
-
-  @column()
-  declare position: number
-
-  @column()
-  declare isPublic: boolean
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-}
+export default class ContentStatus extends ContentStatusSchema {}

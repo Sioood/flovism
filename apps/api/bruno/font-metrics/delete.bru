@@ -1,0 +1,11 @@
+meta {
+  name: Delete font metrics
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/metrics
+  body: none
+  auth: inherit
+}

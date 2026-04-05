@@ -1,22 +1,13 @@
-import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { beforeCreate } from '@adonisjs/lucid/orm'
 
+import { ProjectCategorySchema } from '#database/schema'
 import { newId } from '#utils/custom_id'
 
-export default class ProjectCategory extends BaseModel {
+export default class ProjectCategory extends ProjectCategorySchema {
   static selfAssignPrimaryKey = true
 
   @beforeCreate()
   static assignId(model: ProjectCategory) {
     model.id = model.id || newId('projectCategory')
   }
-
-  @column({ isPrimary: true })
-  declare id: string
-
-  @column()
-  declare key: string
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
 }

@@ -1,0 +1,11 @@
+meta {
+  name: Delete font family
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families/{{familyId}}
+  body: none
+  auth: inherit
+}

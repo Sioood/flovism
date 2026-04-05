@@ -1,0 +1,22 @@
+meta {
+  name: font styles update
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/styles/{{fontStyleId}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "internalName": "Regular",
+    "sortOrder": 1
+  }
+}

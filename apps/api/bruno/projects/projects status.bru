@@ -5,7 +5,7 @@ meta {
 }
 
 patch {
-  url: {{baseUrl}}/api/v1/projects/{{projectId}}/status
+  url: {{baseUrl}}/api/{{apiVersion}}/projects/{{projectId}}/status
   body: json
   auth: inherit
 }

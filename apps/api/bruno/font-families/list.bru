@@ -1,0 +1,16 @@
+meta {
+  name: List font families
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families?page={{page}}&limit={{limit}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: {{page}}
+  limit: {{limit}}
+}

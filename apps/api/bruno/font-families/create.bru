@@ -1,0 +1,27 @@
+meta {
+  name: Create font family
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "internalName": "display",
+    "sortOrder": 0,
+    "canTrial": false,
+    "price": null,
+    "translations": {
+      "fr_FR": { "displayName": "Affichage" }
+    }
+  }
+}

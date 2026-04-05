@@ -5,7 +5,6 @@ import ProjectImage from '#models/project_image'
 import ProjectNumberService from '#services/project_number_service'
 import PublicationService from '#services/publication_service'
 import ProjectRepository from '#services/repositories/project_repository'
-import TranslationService from '#services/translation_service'
 import UploadService from '#services/upload_service'
 import { newId } from '#utils/custom_id'
 
@@ -14,24 +13,26 @@ import { ContentStatuses, type ContentStatusCode } from '../enums/content_status
 export default class ProjectService {
   constructor(
     private readonly repository = new ProjectRepository(),
-    private readonly translationService = new TranslationService(),
     private readonly publicationService = new PublicationService(),
     private readonly projectNumberService = new ProjectNumberService(),
     private readonly uploadService = new UploadService(),
   ) {}
 
-  async list(languageCode: string, options?: { publishedOnly?: boolean }) {
-    const projects = await this.repository.list(languageCode, options)
-    return Promise.all(projects.map((project) => this.withImages(project, languageCode)))
+  async listPaginated(languageCode: string, options: { publishedOnly?: boolean } | undefined, page: number, perPage: number) {
+    const paginated = (await this.repository.listPaginated(languageCode, options, page, perPage)) as { all(): Project[]; getMeta(): unknown }
+    const hydrated = await Promise.all(paginated.all().map((project) => this.withImages(project, languageCode)))
+    return { rows: hydrated, paginator: paginated }
   }
 
   async show(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
     const project = await this.repository.byId(id, languageCode, options)
     if (!project) return null
-    return this.withImages(project, languageCode)
+    return this.withImages(project as Project, languageCode)
   }
 
-  private async withImages(project: { id: string } & Record<string, unknown>, languageCode: string) {
+  private async withImages(project: Project, languageCode: string): Promise<Project> {
+    project.mergeTranslations(languageCode)
+
     const rows = await db
       .from('project_images')
       .innerJoin('uploads', 'project_images.upload_id', 'uploads.id')
@@ -54,7 +55,7 @@ export default class ProjectService {
       .orderBy('project_images.sort_order', 'asc')
 
     const images = await Promise.all(
-      rows.map(async (row) => ({
+      rows.map(async (row: { id: string; upload_id: string; sort_order: number; disk: string; key: string; visibility: string; alt: string | null }) => ({
         id: row.id,
         uploadId: row.upload_id,
         sortOrder: row.sort_order,
@@ -67,19 +68,20 @@ export default class ProjectService {
       })),
     )
 
-    return {
-      ...project,
-      images,
-    }
+    project.apiImages = images
+    return project
   }
 
-  async create(input: {
-    projectYear: number
-    categoryIds?: string[]
-    images?: Array<{ uploadId: string; sortOrder?: number; alts?: Record<string, { alt: string }> }>
-    translations: Record<string, { slug: string; name: string; description: string; client_name?: string | null; credit?: string | null }>
-    statusCode?: ContentStatusCode
-  }) {
+  async create(
+    input: {
+      projectYear: number
+      categoryIds?: string[]
+      images?: Array<{ uploadId: string; sortOrder?: number; alts?: Record<string, { alt: string }> }>
+      translations: Record<string, { slug: string; name: string; description: string; client_name?: string | null; credit?: string | null }>
+      statusCode?: ContentStatusCode
+    },
+    languageCode: string,
+  ) {
     const trx = await db.transaction()
     try {
       const projectNumber = await this.projectNumberService.nextForYear(input.projectYear, trx)
@@ -92,13 +94,7 @@ export default class ProjectService {
         { client: trx },
       )
 
-      await this.translationService.upsertEntityTranslations({
-        table: 'project_translations',
-        ownerColumn: 'project_id',
-        ownerId: project.id,
-        translations: input.translations,
-        trx,
-      })
+      await project.saveTranslations(input.translations, trx)
 
       if (input.categoryIds?.length) {
         await trx
@@ -117,10 +113,10 @@ export default class ProjectService {
           })
 
           if (image.alts) {
-            const translationRows = Object.entries(image.alts).map(([languageCode, { alt }]) => ({
+            const translationRows = Object.entries(image.alts).map(([lang, { alt }]) => ({
               id: newId('projectImageTranslation'),
               project_image_id: projectImageId,
-              language_code: languageCode,
+              language_code: lang,
               alt,
             }))
             if (translationRows.length) {
@@ -130,7 +126,9 @@ export default class ProjectService {
         }
       }
       await trx.commit()
-      return project
+      const hydrated = await this.show(project.id, languageCode, { publishedOnly: false })
+      if (!hydrated) throw new Error('Project not found after create')
+      return hydrated
     } catch (error) {
       await trx.rollback()
       throw error
@@ -145,6 +143,7 @@ export default class ProjectService {
       images?: Array<{ uploadId: string; sortOrder?: number; alts?: Record<string, { alt: string }> }>
       translations?: Record<string, { slug: string; name: string; description: string; client_name?: string | null; credit?: string | null }>
     },
+    languageCode: string,
   ) {
     const trx = await db.transaction()
     try {
@@ -153,13 +152,7 @@ export default class ProjectService {
       await project.save()
 
       if (input.translations) {
-        await this.translationService.upsertEntityTranslations({
-          table: 'project_translations',
-          ownerColumn: 'project_id',
-          ownerId: project.id,
-          translations: input.translations,
-          trx,
-        })
+        await project.saveTranslations(input.translations, trx)
       }
 
       if (input.categoryIds) {
@@ -189,10 +182,10 @@ export default class ProjectService {
           })
 
           if (image.alts) {
-            const translationRows = Object.entries(image.alts).map(([languageCode, { alt }]) => ({
+            const translationRows = Object.entries(image.alts).map(([lang, { alt }]) => ({
               id: newId('projectImageTranslation'),
               project_image_id: projectImageId,
-              language_code: languageCode,
+              language_code: lang,
               alt,
             }))
             if (translationRows.length) {
@@ -203,7 +196,9 @@ export default class ProjectService {
       }
 
       await trx.commit()
-      return project
+      const hydrated = await this.show(id, languageCode, { publishedOnly: false })
+      if (!hydrated) throw new Error('Project not found after update')
+      return hydrated
     } catch (error) {
       await trx.rollback()
       throw error
@@ -224,7 +219,7 @@ export default class ProjectService {
     })
   }
 
-  async transitionStatus(id: string, to: ContentStatusCode, scheduledAt?: string | null) {
+  async transitionStatus(id: string, to: ContentStatusCode, scheduledAt: string | null | undefined, languageCode: string) {
     const project = await Project.findOrFail(id)
     this.publicationService.validateTransition(project.statusCode as ContentStatusCode, to)
     const payload = this.publicationService.buildStatusPayload(to, scheduledAt)
@@ -235,6 +230,8 @@ export default class ProjectService {
         publishedAt: payload.published_at || null,
       })
       .save()
-    return project
+    const hydrated = await this.show(id, languageCode, { publishedOnly: false })
+    if (!hydrated) throw new Error('Project not found after status transition')
+    return hydrated
   }
 }

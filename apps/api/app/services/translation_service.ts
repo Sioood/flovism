@@ -1,12 +1,17 @@
 import db from '@adonisjs/lucid/services/db'
 
-import { newId } from '#utils/custom_id'
+import { defaultLanguageCode } from '#constants/i18n'
+import { TranslationRepository } from '#utils/translation_repository'
 
-import { defaultLanguageCode } from '../constants/i18n.js'
-
+import type { IdPrefix } from '#utils/custom_id'
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database'
 
 type TranslationInput = Record<string, string | null>
+
+const tableIdPrefix: Record<'project_translations' | 'font_translations', IdPrefix> = {
+  project_translations: 'projectTranslation',
+  font_translations: 'fontTranslation',
+}
 
 export default class TranslationService {
   async ensureLanguageExists(languageCode: string) {
@@ -29,28 +34,27 @@ export default class TranslationService {
     translations: Record<string, TranslationInput>
     trx?: TransactionClientContract
   }) {
-    const queryClient = params.trx || db
-    this.ensureDefaultLanguagePayload(params.translations)
+    await TranslationRepository.upsert({
+      table: params.table,
+      foreignKey: params.ownerColumn,
+      ownerId: params.ownerId,
+      idPrefix: tableIdPrefix[params.table],
+      translations: params.translations,
+      trx: params.trx,
+    })
+  }
 
-    for (const [languageCode, payload] of Object.entries(params.translations)) {
-      await this.ensureLanguageExists(languageCode)
-
-      const existing = await queryClient.from(params.table).where(params.ownerColumn, params.ownerId).where('language_code', languageCode).first()
-
-      if (existing) {
-        await queryClient
-          .from(params.table)
-          .where('id', existing.id)
-          .update({ ...payload, updated_at: queryClient.rawQuery('CURRENT_TIMESTAMP') })
-      } else {
-        const id = params.table === 'project_translations' ? newId('projectTranslation') : newId('fontTranslation')
-        await queryClient.table(params.table).insert({
-          id,
-          ...payload,
-          [params.ownerColumn]: params.ownerId,
-          language_code: languageCode,
-        })
-      }
-    }
+  async upsertFontFamilyTranslations(params: { familyId: string; translations: Record<string, { displayName: string }>; trx?: TransactionClientContract }) {
+    const translations = Object.fromEntries(
+      Object.entries(params.translations).map(([languageCode, row]) => [languageCode, { display_name: row.displayName } as TranslationInput]),
+    )
+    await TranslationRepository.upsert({
+      table: 'font_family_translations',
+      foreignKey: 'family_id',
+      ownerId: params.familyId,
+      idPrefix: 'fontFamilyTranslation',
+      translations,
+      trx: params.trx,
+    })
   }
 }

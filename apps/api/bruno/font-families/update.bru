@@ -1,0 +1,24 @@
+meta {
+  name: Update font family
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/families/{{familyId}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "internalName": "display",
+    "translations": {
+      "fr_FR": { "displayName": "Affichage (MAJ)" }
+    }
+  }
+}

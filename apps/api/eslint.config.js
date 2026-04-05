@@ -21,4 +21,24 @@ export default eslint(
       '@typescript-eslint/no-empty-object-type': 'off',
     },
   },
+  {
+    files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
+    rules: {
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'variable',
+          format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+          leadingUnderscore: 'allow',
+        },
+        { selector: 'typeLike', format: ['PascalCase'] },
+        { selector: 'class', format: ['PascalCase'] },
+        {
+          selector: 'interface',
+          format: ['PascalCase'],
+          custom: { regex: '^I[A-Z]', match: false },
+        },
+      ],
+    },
+  },
 ).prepend(...configApp())

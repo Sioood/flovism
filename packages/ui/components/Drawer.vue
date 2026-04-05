@@ -130,7 +130,15 @@ const contentCloseTriggerWrapperRef = ref<HTMLElement | null>(null)
 </script>
 
 <template>
-  <Drawer.Root v-bind="$props" @open-change="(e) => emit('update:open', e.open)">
+  <Drawer.Root
+    :modal="modal"
+    :close-on-escape="closeOnEscape"
+    :close-on-interact-outside="closeOnInteractOutside"
+    :snap-points="snapPoints"
+    :default-snap-point="defaultSnapPoint"
+    :open="open"
+    @open-change="(e) => emit('update:open', e.open)"
+  >
     <div @click="defaultTriggerHandling ? emit('update:open', !open) : null">
       <slot name="trigger" />
     </div>

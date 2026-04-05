@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, unknown>">
 import type { Component } from 'vue'
 
 export interface PropDefinition {
@@ -13,23 +13,48 @@ export interface PropDefinition {
 const props = withDefaults(
   defineProps<{
     component: Component & { __name?: string }
-    initialProps?: Record<string, unknown>
+    initialProps?: T
     defaultPreviewBackground?: boolean
     propsSchema?: PropDefinition[]
   }>(),
   {
-    initialProps: () => ({}),
+    initialProps: undefined,
     propsSchema: undefined,
     defaultPreviewBackground: true,
   },
 )
 
-const currentProps = ref<Record<string, unknown>>({ ...props.initialProps })
+const emit = defineEmits<{
+  'update:props': [props: T]
+}>()
+
+const internalProps = ref<T>(props.initialProps ?? ({} as T))
+
+const currentProps = computed({
+  get: () => internalProps.value,
+  set: (val) => {
+    internalProps.value = val
+    emit('update:props', val)
+  },
+})
 
 watch(
   () => props.initialProps,
   (next) => {
-    currentProps.value = { ...next }
+    if (!next) return
+    // Only update keys that actually changed from parent (deep equality)
+    const current = internalProps.value
+    const changed = { ...current }
+    let hasChanges = false
+    for (const key of Object.keys(next)) {
+      if (JSON.stringify(current[key]) !== JSON.stringify(next[key])) {
+        changed[key as keyof T] = next[key] as T[keyof T]
+        hasChanges = true
+      }
+    }
+    if (hasChanges) {
+      internalProps.value = changed
+    }
   },
   { deep: true },
 )
@@ -83,7 +108,7 @@ function getPropValue(propName: string): unknown {
 }
 
 function updateProp(key: string, value: unknown): void {
-  const next = { ...currentProps.value }
+  const next = { ...internalProps.value }
   if (value === undefined) delete next[key]
   else next[key] = value
   currentProps.value = next
@@ -114,10 +139,9 @@ function parsePropValue(value: string, type: string | undefined): unknown {
 <template>
   <ComponentViewerWrapper :title="`Preview ${component.__name ?? ''}`.trim()" :default-preview-background="defaultPreviewBackground" empty-label="No component">
     <template #preview>
-      <component :is="component" v-if="component" v-bind="currentProps">
-        <slot />
-      </component>
-      <span v-else class="text-gray-500">No component</span>
+      <slot name="override" :props="currentProps">
+        <component :is="component" v-if="component" v-bind="currentProps" />
+      </slot>
     </template>
 
     <section class="mb-4">

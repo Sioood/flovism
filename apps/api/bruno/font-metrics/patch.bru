@@ -1,0 +1,26 @@
+meta {
+  name: Upsert font metrics
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/metrics
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "serifSans": 50,
+    "boringFun": 30,
+    "scriptGeometric": 40,
+    "readableIllegible": 60,
+    "displayText": 70,
+    "styleCountScore": 20
+  }
+}

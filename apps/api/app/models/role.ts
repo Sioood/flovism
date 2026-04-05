@@ -1,12 +1,12 @@
-import { BaseModel, beforeCreate, column, hasMany } from '@adonisjs/lucid/orm'
-import { DateTime } from 'luxon'
+import { beforeCreate, hasMany } from '@adonisjs/lucid/orm'
 
+import { RoleSchema } from '#database/schema'
 import User from '#models/user'
 import { newId } from '#utils/custom_id'
 
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 
-export default class Role extends BaseModel {
+export default class Role extends RoleSchema {
   static selfAssignPrimaryKey = true
 
   @beforeCreate()
@@ -14,21 +14,6 @@ export default class Role extends BaseModel {
     role.id = role.id || newId('role')
   }
 
-  @column({ isPrimary: true })
-  declare id: string
-
-  @column()
-  declare code: string
-
-  @column()
-  declare label: string
-
   @hasMany(() => User, { foreignKey: 'roleId' })
   declare users: HasMany<typeof User>
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
 }

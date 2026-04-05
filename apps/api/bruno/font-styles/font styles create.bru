@@ -1,0 +1,24 @@
+meta {
+  name: font styles create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/styles
+  body: json
+  auth: inherit
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "internalName": "Regular",
+    "sortOrder": 0,
+    "canTrial": false,
+    "isVariable": false
+  }
+}
