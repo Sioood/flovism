@@ -7,5 +7,7 @@
   "signupFailed": "Inscription échouée",
   "signupSuccess": "Inscription réussie",
   "logoutFailed": "Déconnexion échouée",
-  "logoutSuccess": "Déconnexion réussie"
+  "logoutSuccess": "Déconnexion réussie",
+  "projects": "Projets",
+  "dashboard": "Tableau de bord"
 }
