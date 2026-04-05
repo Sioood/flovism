@@ -7,15 +7,11 @@ meta {
 patch {
   url: {{baseUrl}}/api/{{apiVersion}}/fonts/{{fontId}}/metrics
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   content-type: application/json
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

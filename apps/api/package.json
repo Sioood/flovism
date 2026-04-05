@@ -39,7 +39,8 @@
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
     "#config/*": "./config/*.js",
-    "#utils/*": "./utils/*.js"
+    "#utils/*": "./utils/*.js",
+    "#mixins/*": "./app/mixins/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^8.3.0",

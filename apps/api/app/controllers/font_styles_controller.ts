@@ -24,22 +24,25 @@ export default class FontStylesController {
       return this.authorizationResponse.denyRead(ctx, 'Font')
     }
     const qs = await request.validateUsing(listingIndexQueryValidator)
+    const lang = String(request.qs().lang || 'fr_FR')
     const { page, limit } = resolveListingPagination(qs, auth.user?.roleId)
-    const paginated = await this.fontService.listStylesPaginated(font.id, page, limit)
-    return serialize(FontStyleTransformer.paginate(paginated.all(), paginated.getMeta()))
+    const paginated = await this.fontService.listStylesPaginated(font.id, lang, page, limit)
+    return serialize(FontStyleTransformer.paginate(paginated.all(), paginated.getMeta() as Record<string, unknown>, lang))
   }
 
   async store({ params, request, response, bouncer, serialize }: HttpContext) {
     await bouncer.with(FontPolicy).authorize('update')
     await Font.findOrFail(params.fontId)
     const payload = await request.validateUsing(createFontStyleValidator)
-    const created = await this.fontService.createStyle(params.fontId, payload)
-    return response.created(await serialize(FontStyleTransformer.transform(created)))
+    const lang = String(request.qs().lang || 'fr_FR')
+    const created = await this.fontService.createStyle(params.fontId, payload, lang)
+    return response.created(await serialize(FontStyleTransformer.transform(created, lang)))
   }
 
   async show(ctx: HttpContext) {
-    const { params, bouncer, response, serialize } = ctx
-    const style = await this.fontService.findStyle(params.fontId, params.styleId)
+    const { params, request, bouncer, response, serialize } = ctx
+    const lang = String(request.qs().lang || 'fr_FR')
+    const style = await this.fontService.findStyle(params.fontId, params.styleId, lang)
     if (!style) return response.notFound({ message: 'Font style not found' })
     const font = await Font.find(params.fontId)
     if (!font) return response.notFound({ message: 'Font not found' })
@@ -47,14 +50,15 @@ export default class FontStylesController {
     if (!isAllowed) {
       return this.authorizationResponse.denyRead(ctx, 'Font')
     }
-    return serialize(FontStyleTransformer.transform(style))
+    return serialize(FontStyleTransformer.transform(style, lang))
   }
 
   async update({ params, request, bouncer, serialize }: HttpContext) {
     await bouncer.with(FontPolicy).authorize('update')
     const payload = await request.validateUsing(updateFontStyleValidator)
-    const updated = await this.fontService.updateStyle(params.fontId, params.styleId, payload)
-    return serialize(FontStyleTransformer.transform(updated))
+    const lang = String(request.qs().lang || 'fr_FR')
+    const updated = await this.fontService.updateStyle(params.fontId, params.styleId, payload, lang)
+    return serialize(FontStyleTransformer.transform(updated, lang))
   }
 
   async destroy({ params, response, bouncer }: HttpContext) {

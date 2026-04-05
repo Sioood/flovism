@@ -6,7 +6,6 @@ import FontMetric from '#models/font_metric'
 import FontStyle from '#models/font_style'
 import PublicationService from '#services/publication_service'
 import FontRepository from '#services/repositories/font_repository'
-import TranslationService from '#services/translation_service'
 import UploadService from '#services/upload_service'
 import { newId } from '#utils/custom_id'
 
@@ -15,24 +14,27 @@ import { ContentStatuses, type ContentStatusCode } from '../enums/content_status
 export default class FontService {
   constructor(
     private readonly repository = new FontRepository(),
-    private readonly translationService = new TranslationService(),
     private readonly publicationService = new PublicationService(),
     private readonly uploadService = new UploadService(),
   ) {}
 
   async listPaginated(languageCode: string, options: { publishedOnly?: boolean } | undefined, page: number, perPage: number) {
-    const paginated = await this.repository.listPaginated(languageCode, options, page, perPage)
-    const hydrated = await Promise.all(paginated.all().map((row) => this.withFileUrls(row as { id: string } & Record<string, unknown>)))
+    const paginated = (await this.repository.listPaginated(languageCode, options, page, perPage)) as {
+      all(): Font[]
+      getMeta(): unknown
+    }
+    const hydrated = await Promise.all(paginated.all().map((font) => this.withFileUrls(font, languageCode)))
     return { rows: hydrated, paginator: paginated }
   }
 
   async show(id: string, languageCode: string, options?: { publishedOnly?: boolean }) {
     const font = await this.repository.byId(id, languageCode, options)
     if (!font) return null
-    return this.withFileUrls(font)
+    return this.withFileUrls(font, languageCode)
   }
 
-  private async withFileUrls(font: { id: string } & Record<string, unknown>) {
+  private async withFileUrls(font: Font, languageCode: string): Promise<Font> {
+    font.mergeTranslations(languageCode)
     const files = await db
       .from('font_style_format_files')
       .innerJoin('uploads', 'font_style_format_files.upload_id', 'uploads.id')
@@ -61,22 +63,29 @@ export default class FontService {
       })),
     )
 
-    return {
-      ...font,
-      styleFormatFiles,
-    }
+    font.apiStyleFormatFiles = styleFormatFiles
+    return font
   }
 
-  async create(input: {
-    year: number
-    version?: string
-    previewColor?: string
-    isVariableGlobal?: boolean
-    filterIds?: string[]
-    styleFormatFiles?: Array<{ styleId: string; formatId: string; uploadId: string }>
-    translations: Record<string, { slug: string; name: string; description: string; credit?: string | null }>
-    statusCode?: ContentStatusCode
-  }) {
+  private familyTranslationsForSave(translations: Record<string, { displayName: string }>) {
+    return Object.fromEntries(
+      Object.entries(translations).map(([languageCode, row]) => [languageCode, { display_name: row.displayName } as Record<string, string | null>]),
+    )
+  }
+
+  async create(
+    input: {
+      year: number
+      version?: string
+      previewColor?: string
+      isVariableGlobal?: boolean
+      filterIds?: string[]
+      styleFormatFiles?: Array<{ styleId: string; formatId: string; uploadId: string }>
+      translations: Record<string, { slug: string; name: string; description: string; credit?: string | null }>
+      statusCode?: ContentStatusCode
+    },
+    languageCode: string,
+  ) {
     const trx = await db.transaction()
     try {
       const font = await Font.create(
@@ -90,13 +99,7 @@ export default class FontService {
         { client: trx },
       )
 
-      await this.translationService.upsertEntityTranslations({
-        table: 'font_translations',
-        ownerColumn: 'font_id',
-        ownerId: font.id,
-        translations: input.translations,
-        trx,
-      })
+      await font.saveTranslations(input.translations, trx)
 
       if (input.filterIds?.length) {
         await trx.table('font_filter_font').insert(input.filterIds.map((fontFilterId) => ({ font_id: font.id, font_filter_id: fontFilterId })))
@@ -114,7 +117,9 @@ export default class FontService {
       }
 
       await trx.commit()
-      return font
+      const hydrated = await this.show(font.id, languageCode, { publishedOnly: false })
+      if (!hydrated) throw new Error('Font not found after create')
+      return hydrated
     } catch (error) {
       await trx.rollback()
       throw error
@@ -130,6 +135,7 @@ export default class FontService {
       styleFormatFiles?: Array<{ styleId: string; formatId: string; uploadId: string }>
       translations?: Record<string, { slug: string; name: string; description: string; credit?: string | null }>
     },
+    languageCode: string,
   ) {
     const trx = await db.transaction()
     try {
@@ -143,13 +149,7 @@ export default class FontService {
         .save()
 
       if (input.translations) {
-        await this.translationService.upsertEntityTranslations({
-          table: 'font_translations',
-          ownerColumn: 'font_id',
-          ownerId: font.id,
-          translations: input.translations,
-          trx,
-        })
+        await font.saveTranslations(input.translations, trx)
       }
 
       if (input.styleFormatFiles) {
@@ -171,7 +171,9 @@ export default class FontService {
       }
 
       await trx.commit()
-      return font
+      const hydrated = await this.show(id, languageCode, { publishedOnly: false })
+      if (!hydrated) throw new Error('Font not found after update')
+      return hydrated
     } catch (error) {
       await trx.rollback()
       throw error
@@ -183,7 +185,7 @@ export default class FontService {
     await font.delete()
   }
 
-  async transitionStatus(id: string, to: ContentStatusCode, scheduledAt?: string | null) {
+  async transitionStatus(id: string, to: ContentStatusCode, scheduledAt: string | null | undefined, languageCode: string) {
     const font = await Font.findOrFail(id)
     this.publicationService.validateTransition(font.statusCode as ContentStatusCode, to)
     const payload = this.publicationService.buildStatusPayload(to, scheduledAt)
@@ -194,11 +196,17 @@ export default class FontService {
         publishedAt: payload.published_at || null,
       })
       .save()
-    return font
+    const hydrated = await this.show(id, languageCode, { publishedOnly: false })
+    if (!hydrated) throw new Error('Font not found after status transition')
+    return hydrated
   }
 
-  listStylesPaginated(fontId: string, page: number, perPage: number) {
-    return FontStyle.query().where('fontId', fontId).orderBy('sortOrder', 'asc').paginate(page, perPage)
+  listStylesPaginated(fontId: string, languageCode: string, page: number, perPage: number) {
+    return FontStyle.query()
+      .where('fontId', fontId)
+      .withScopes((scopes: unknown) => (scopes as { withTranslations: (lang: string) => unknown }).withTranslations(languageCode))
+      .orderBy('sortOrder', 'asc')
+      .paginate(page, perPage)
   }
 
   async createStyle(
@@ -211,9 +219,10 @@ export default class FontService {
       isVariable?: boolean
       price?: number | null
     },
+    languageCode: string,
   ) {
     await Font.findOrFail(fontId)
-    return FontStyle.create({
+    const created = await FontStyle.create({
       fontId,
       internalName: input.internalName,
       familyId: input.familyId ?? null,
@@ -222,6 +231,9 @@ export default class FontService {
       isVariable: input.isVariable ?? false,
       price: input.price === null ? null : String(input.price),
     })
+    const reloaded = await this.findStyle(fontId, created.id, languageCode)
+    if (!reloaded) throw new Error('Font style not found after create')
+    return reloaded
   }
 
   async updateStyle(
@@ -235,6 +247,7 @@ export default class FontService {
       isVariable?: boolean
       price?: number | null
     },
+    languageCode: string,
   ) {
     const style = await FontStyle.query().where('fontId', fontId).where('id', styleId).firstOrFail()
     if (input.internalName !== undefined) style.internalName = input.internalName
@@ -244,7 +257,9 @@ export default class FontService {
     if (input.isVariable !== undefined) style.isVariable = input.isVariable
     if (input.price !== undefined) style.price = input.price === null ? null : String(input.price)
     await style.save()
-    return style
+    const reloaded = await this.findStyle(fontId, styleId, languageCode)
+    if (!reloaded) throw new Error('Font style not found after update')
+    return reloaded
   }
 
   async destroyStyle(fontId: string, styleId: string) {
@@ -252,12 +267,20 @@ export default class FontService {
     await style.delete()
   }
 
-  findStyle(fontId: string, styleId: string) {
-    return FontStyle.query().where('fontId', fontId).where('id', styleId).first()
+  findStyle(fontId: string, styleId: string, languageCode: string) {
+    return FontStyle.query()
+      .where('fontId', fontId)
+      .where('id', styleId)
+      .withScopes((scopes: unknown) => (scopes as { withTranslations: (lang: string) => unknown }).withTranslations(languageCode))
+      .first()
   }
 
-  listFamiliesPaginated(fontId: string, page: number, perPage: number) {
-    return FontFamily.query().where('fontId', fontId).preload('translations').orderBy('sortOrder', 'asc').paginate(page, perPage)
+  listFamiliesPaginated(fontId: string, languageCode: string, page: number, perPage: number) {
+    return FontFamily.query()
+      .where('fontId', fontId)
+      .withScopes((scopes: unknown) => (scopes as { withTranslations: (lang: string) => unknown }).withTranslations(languageCode))
+      .orderBy('sortOrder', 'asc')
+      .paginate(page, perPage)
   }
 
   async createFamily(
@@ -269,6 +292,7 @@ export default class FontService {
       price?: number | null
       translations?: Record<string, { displayName: string }>
     },
+    languageCode: string,
   ) {
     await Font.findOrFail(fontId)
     const family = await FontFamily.create({
@@ -279,10 +303,12 @@ export default class FontService {
       price: input.price === null ? null : String(input.price),
     })
     if (input.translations && Object.keys(input.translations).length) {
-      await this.translationService.upsertFontFamilyTranslations({ familyId: family.id, translations: input.translations })
+      await family.saveTranslations(this.familyTranslationsForSave(input.translations))
     }
-    await family.load('translations')
-    return family
+    const reloaded = await this.findFamily(fontId, family.id, languageCode)
+    if (!reloaded) throw new Error('Font family not found after create')
+    reloaded.mergeTranslations(languageCode)
+    return reloaded
   }
 
   async updateFamily(
@@ -295,6 +321,7 @@ export default class FontService {
       price?: number | null
       translations?: Record<string, { displayName: string }>
     },
+    languageCode: string,
   ) {
     const family = await FontFamily.query().where('fontId', fontId).where('id', familyId).firstOrFail()
     if (input.internalName !== undefined) family.internalName = input.internalName
@@ -303,10 +330,12 @@ export default class FontService {
     if (input.price !== undefined) family.price = input.price === null ? null : String(input.price)
     await family.save()
     if (input.translations && Object.keys(input.translations).length) {
-      await this.translationService.upsertFontFamilyTranslations({ familyId: family.id, translations: input.translations })
+      await family.saveTranslations(this.familyTranslationsForSave(input.translations))
     }
-    await family.load('translations')
-    return family
+    const reloaded = await this.findFamily(fontId, familyId, languageCode)
+    if (!reloaded) throw new Error('Font family not found after update')
+    reloaded.mergeTranslations(languageCode)
+    return reloaded
   }
 
   async destroyFamily(fontId: string, familyId: string) {
@@ -314,8 +343,12 @@ export default class FontService {
     await family.delete()
   }
 
-  findFamily(fontId: string, familyId: string) {
-    return FontFamily.query().where('fontId', fontId).where('id', familyId).preload('translations').first()
+  findFamily(fontId: string, familyId: string, languageCode: string) {
+    return FontFamily.query()
+      .where('fontId', fontId)
+      .where('id', familyId)
+      .withScopes((scopes: unknown) => (scopes as { withTranslations: (lang: string) => unknown }).withTranslations(languageCode))
+      .first()
   }
 
   findMetrics(fontId: string) {
