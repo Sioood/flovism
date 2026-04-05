@@ -34,8 +34,12 @@ const handleUpload = async () => {
   <div class="flex flex-col">
     <div class="flex flex-col gap-6 p-6">
       <ComponentListViewer title="Toaster">
-        <ComponentViewerWrapper :component="UIButton" :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }">
-          <template #preview>
+        <ComponentViewer
+          :component="UIButton"
+          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :default-preview-background="false"
+        >
+          <template #override>
             <div class="flex flex-wrap gap-2">
               <UIButton
                 v-for="type in ['loading', 'info', 'success', 'warning', 'error']"
@@ -48,7 +52,7 @@ const handleUpload = async () => {
               <UIButton color="black" @click="handleUpload">Show Toast Promise</UIButton>
             </div>
           </template>
-        </ComponentViewerWrapper>
+        </ComponentViewer>
 
         <UIToaster />
       </ComponentListViewer>

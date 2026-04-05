@@ -29,32 +29,34 @@ const pictoPropsSchema: PropDefinition[] = [
       </ComponentListViewer>
 
       <ComponentListViewer title="Join">
-        <ComponentViewerWrapper
+        <ComponentViewer
           :component="UIPicto"
-          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :initial-props="{ intent: 'primary', size: 'md', iconName: 'custom:plus' }"
           :props-schema="pictoPropsSchema"
+          :default-preview-background="false"
         >
-          <template #preview>
+          <template #override="{ props }">
             <div class="join join-horizontal">
-              <UIPicto class="join-item" color="red" icon-name="custom:plus" />
-              <UIPicto class="join-item" color="blue" icon-name="custom:plus" />
+              <UIPicto class="join-item" v-bind="props" />
+              <UIPicto class="join-item" v-bind="props" />
             </div>
           </template>
-        </ComponentViewerWrapper>
+        </ComponentViewer>
 
-        <ComponentViewerWrapper
+        <ComponentViewer
           :component="UIPicto"
-          :initial-props="{ intent: 'primary', size: 'md', color: 'red', iconName: 'custom:plus' }"
+          :initial-props="{ intent: 'primary', size: 'md', iconName: 'custom:plus' }"
           :props-schema="pictoPropsSchema"
+          :default-preview-background="false"
         >
-          <template #preview>
+          <template #override="{ props }">
             <div class="join join-horizontal">
-              <UIPicto class="join-item" color="red" icon-name="custom:plus" />
-              <UIPicto class="join-item" color="yellow" icon-name="custom:plus" />
-              <UIPicto class="join-item" color="green" icon-name="custom:plus" />
+              <UIPicto class="join-item" v-bind="props" />
+              <UIPicto class="join-item" v-bind="props" />
+              <UIPicto class="join-item" v-bind="props" />
             </div>
           </template>
-        </ComponentViewerWrapper>
+        </ComponentViewer>
       </ComponentListViewer>
 
       <ComponentListViewer title="Icons">
