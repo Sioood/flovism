@@ -17,7 +17,7 @@ const mobileMenuOpen = ref(false)
     <div class="flex items-center justify-between p-2">
       <UIDrawer v-model:open="mobileMenuOpen" direction="left" swipe-direction="start" :modal="true" @update:open="mobileMenuOpen = $event">
         <template #trigger>
-          <UIButton v-if="!isLargeScreen" size="sm" color="gray" icon-name="ic:menu" :label="pkg.name" />
+          <UIButton v-if="!isLargeScreen" size="sm" color="gray" icon-name="custom:burger-menu" :label="pkg.name" />
         </template>
         <Sidebar />
       </UIDrawer>

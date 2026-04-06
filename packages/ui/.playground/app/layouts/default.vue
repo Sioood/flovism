@@ -35,7 +35,7 @@ watch(
     <ReuseDrawer v-if="isLargeScreen" class="fixed max-w-[15vw]" />
     <UIDrawer v-else v-model:open="mobileMenuOpen" direction="left" swipe-direction="start" :modal="true" @update:open="mobileMenuOpen = $event">
       <template #trigger>
-        <UIButton size="sm" color="gray" icon-name="lucide:menu" class="fixed top-4 left-4 z-10" aria-label="Open menu" />
+        <UIButton size="sm" color="gray" icon-name="custom:burger-menu" class="fixed top-4 left-4 z-10" aria-label="Open menu" />
       </template>
 
       <ReuseDrawer />
