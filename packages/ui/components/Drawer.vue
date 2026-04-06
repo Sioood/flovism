@@ -137,6 +137,7 @@ const contentCloseTriggerWrapperRef = ref<HTMLElement | null>(null)
     :snap-points="snapPoints"
     :default-snap-point="defaultSnapPoint"
     :open="open"
+    :swipe-direction="swipeDirection"
     @open-change="(e) => emit('update:open', e.open)"
   >
     <div @click="defaultTriggerHandling ? emit('update:open', !open) : null">
